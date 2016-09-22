@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using JAVIdolsDetector.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace JAVIdolsDetector
 {
@@ -29,6 +30,7 @@ namespace JAVIdolsDetector
         public void ConfigureServices(IServiceCollection services)
         {
             // application setting
+            services.AddDbContext<IdolsDetectorContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdolsDetector")));
             services.Configure<ApplicationSettings>(Configuration);
             // Add framework services.
             services.AddMvc();
