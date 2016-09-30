@@ -16,8 +16,12 @@ namespace JAVIdolsDetector.Controllers
         }
         public IActionResult Index()
         {
-            FaceApiCaller.CreatePersonGroup(this.appSettings.ApiKey, "testgroup1", "Test Group 1");
-            FaceApiCaller.DeletePersonGroup(this.appSettings.ApiKey, "testgroup1");
+            //FaceApiCaller.CreatePersonGroup(this.appSettings.ApiKey, "testgroup1", "Test Group 1");
+            //FaceApiCaller.DeletePersonGroup(this.appSettings.ApiKey, "testgroup1");
+            return View();
+        }
+        public IActionResult Thinking()
+        {
             return View();
         }
 

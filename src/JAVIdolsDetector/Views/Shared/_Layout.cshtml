@@ -30,9 +30,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Tutorial</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Thinking">Thinking in React</a></li>
                 </ul>
             </div>
         </div>
@@ -48,7 +47,10 @@
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/lib/react/react.js"></script>
+        <script src="~/js/lib/react/react-dom.js"></script>
+        <script src="~/js/lib/react/browser.min.js"></script>
+        <script src="https://unpkg.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -59,9 +61,9 @@
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
         </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="https://unpkg.com/react@15.3.2/dist/react.js" asp-fallback-src="~/js/lib/react/react.js" asp-fallback-test="window.React"></script>
+        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js" asp-fallback-src="~/js/lib/react/react-dom.js" asp-fallback-test="window.React"></script>
+        <script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
     </environment>
-
-    @RenderSection("scripts", required: false)
 </body>
 </html>
