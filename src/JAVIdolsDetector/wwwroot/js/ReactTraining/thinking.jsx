@@ -78,7 +78,7 @@ var SearchBar = React.createClass({
 var ProductTable = React.createClass({
     render: function () {
         var rows = this.props.categories.map(function (category, index) {
-            return (<ProductCategoryRow products={category.data} key={category.name }></ProductCategoryRow>)
+            return (<ProductCategoryRow name={category.name} products={category.data} key={category.name }></ProductCategoryRow>)
         });
         return (
             <div>{rows}</div>
@@ -88,20 +88,22 @@ var ProductTable = React.createClass({
 var ProductCategoryRow = React.createClass({
     render: function () {
         var rows = this.props.products.map(function (product, index) {
-            return (<ProductRow data={product} key={product.name }></ProductRow>);
+            return (<ProductRow data={product} key={product.name }></ProductRow>); // product components
         });
-        return (<div className="category-row">{rows}</div>); // product components
+        return (
+        <div className="category-row">
+            <h4>{this.props.name}</h4>
+            {rows}
+        </div>);
     }
 });
 var ProductRow = React.createClass({
     render: function () {
         return (
-            <div className="product-row">
+            <div className="row product-row">
                 <div className="col-md-6">{this.props.data.stocked ? this.props.data.name : (<span className="error">{this.props.data.name}</span>)}</div><div className="col-md-6">{this.props.data.price}</div>
             </div>
             );
     }
 });
-if (typeof (window) !== "undefined") {
-    ReactDOM.render(<App></App>, document.querySelector(".react-app"));
-}
+ReactDOM.render(<App></App>, document.querySelector(".react-app"));

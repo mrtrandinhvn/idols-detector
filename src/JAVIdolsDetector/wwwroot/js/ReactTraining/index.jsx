@@ -64,8 +64,7 @@ var CommentList = React.createClass({
                 );
         })
         return (
-            <div className="commentList">
-                {commentNodes}
+            <div className="commentList">{commentNodes}
             </div>
         );
     }
@@ -120,8 +119,7 @@ var Comment = React.createClass({
     render: function () {
         return (
             <div className="comment">
-                <h2 className="commentAuthor">
-                    {this.props.author}
+                <h2 className="commentAuthor">{this.props.author}
                 </h2>
                 <span dangerouslySetInnerHTML={this.rawMarkup()} />
             </div>
