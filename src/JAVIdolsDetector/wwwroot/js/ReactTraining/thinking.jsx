@@ -12,8 +12,8 @@ var FilterableProductTabe = React.createClass({
     getInitialState: function () {
         return {
             categories: [],
-            filter: "",
-            inStockOnly: false
+            //filter: "",
+            //inStockOnly: false
         }
     },
     indexOf: function (arr, field, fieldValue) {
@@ -61,7 +61,7 @@ var FilterableProductTabe = React.createClass({
                         data.push(product);
                     } else if (!filter && isStocked) {
                         // no filter, stock only
-                        if (product.isStocked) {
+                        if (product.stocked) {
                             data.push(product);
                         }
                     } else {
@@ -91,7 +91,7 @@ var FilterableProductTabe = React.createClass({
         this.loadData();
     },
     onSearch: function (filter, isStocked) {
-        this.loadData();
+        this.loadData(filter, isStocked);
     },
     render: function () {
         return (
