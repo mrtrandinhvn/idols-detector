@@ -59,17 +59,16 @@ namespace JAVIdolsDetector
                 // your components as well as all of their dependencies.
                 // See http://reactjs.net/ for more information. Example:
                 //config
-                //    .AddScript("~/Scripts/First.jsx")
-                //    .AddScript("~/Scripts/Second.jsx");
+                //  .AddScript("~/Scripts/First.jsx")
+                //  .AddScript("~/Scripts/Second.jsx");
 
                 // If you use an external build too (for example, Babel, Webpack,
                 // Browserify or Gulp), you can improve performance by disabling
                 // ReactJS.NET's version of Babel and loading the pre-transpiled
                 // scripts. Example:
                 //config
-                //    .SetLoadBabel(false)
-                //    .AddScriptWithoutTransform("~/Scripts/bundle.server.js");
-                config.SetAllowMsieEngine(false);
+                //  .SetLoadBabel(false)
+                //  .AddScriptWithoutTransform("~/Scripts/bundle.server.js");
             });
             app.UseStaticFiles();
 
