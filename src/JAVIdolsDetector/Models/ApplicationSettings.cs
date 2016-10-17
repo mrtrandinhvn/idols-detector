@@ -8,5 +8,6 @@ namespace JAVIdolsDetector.Models
     public class ApplicationSettings
     {
         public string ApiKey { get; set; }
+        public string ConnectionString { get; set; }
     }
 }

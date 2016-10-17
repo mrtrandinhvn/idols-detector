@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace JAVIdolsDetector.Models
 {
-    public partial class PersonGroup
+    public partial class Country
     {
-        public PersonGroup()
+        public Country()
         {
             Person = new HashSet<Person>();
         }
 
-        public int PersonGroupId { get; set; }
-        public string PersonGroupOnlineId { get; set; }
-        public string TrainingStatus { get; set; }
+        public int CountryId { get; set; }
+        public string CountryName { get; set; }
+        public string Isocode { get; set; }
 
         public virtual ICollection<Person> Person { get; set; }
     }

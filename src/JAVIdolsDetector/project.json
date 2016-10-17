@@ -39,12 +39,6 @@
   "buildOptions": {
     "emitEntryPoint": true,
     "preserveCompilationContext": true
-    //"copyToOutput": {
-    //  "include": [
-    //    "ClearScriptV8-64.dll",
-    //    "v8-x64.dll"
-    //  ]
-    //}
   },
   "runtimeOptions": {
     "configProperties": {
@@ -62,7 +56,6 @@
   },
   "scripts": {
     "prepublish": [
-      //"bower install",
       "dotnet bundle"
     ],
     "postpublish": [

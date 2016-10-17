@@ -1,4 +1,4 @@
-﻿using JAVIdolsDetector.Models.DataAccess;
+﻿using JAVIdolsDetector.Models.Services;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -22,7 +22,11 @@ namespace JAVIdolsDetector.Interfaces.Implementations
                     response = await client.PutAsync(uri, content);
                     if (response.IsSuccessStatusCode)
                     {
-                        new PersonGroupDataAccess().AddEditPersonGroup();
+                        // update database
+                    }
+                    else
+                    {
+                        // notify error message
                     }
                 }
             }
@@ -41,7 +45,7 @@ namespace JAVIdolsDetector.Interfaces.Implementations
                 }
                 else
                 {
-                    // display error message
+                    // notify error message
                 }
             }
         }

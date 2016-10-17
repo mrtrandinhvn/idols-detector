@@ -10,8 +10,9 @@ namespace JAVIdolsDetector.Models
             Face = new HashSet<Face>();
         }
 
-        public Guid PersonId { get; set; }
-        public string PersonGroupId { get; set; }
+        public int PersonId { get; set; }
+        public Guid PersonOnlineId { get; set; }
+        public int PersonGroupId { get; set; }
         public string Name { get; set; }
         public DateTime? BirthDate { get; set; }
         public string Alias { get; set; }
@@ -21,6 +22,7 @@ namespace JAVIdolsDetector.Models
         public int? CountryId { get; set; }
 
         public virtual ICollection<Face> Face { get; set; }
+        public virtual Country Country { get; set; }
         public virtual PersonGroup PersonGroup { get; set; }
     }
 }
