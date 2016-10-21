@@ -24,5 +24,9 @@ namespace JAVIdolsDetector.Controllers
         {
             return View();
         }
+        public IActionResult GridDemo()
+        {
+            return View();
+        }
     }
 }

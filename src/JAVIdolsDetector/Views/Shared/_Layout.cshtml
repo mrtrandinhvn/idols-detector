@@ -30,9 +30,21 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="ReactTraining" asp-action="Index">Tutorial</a></li>
-                    <li><a asp-area="" asp-controller="ReactTraining" asp-action="Thinking">Thinking in React</a></li>
-                    <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">React Tutorials<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="ReactTraining" asp-action="Index">Tutorial</a></li>
+                            <li><a asp-area="" asp-controller="ReactTraining" asp-action="Thinking">Thinking in React</a></li>
+                            <li><a asp-area="" asp-controller="ReactTraining" asp-action="GridDemo">Sample grid demo</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="Admin" asp-action="Index">Person Groups</a></li>
+                        </ul>
+                    </li>
+
                 </ul>
             </div>
         </div>
@@ -48,9 +60,9 @@
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/lib/react/react.js"></script>
-        <script src="~/js/lib/react/react-dom.js"></script>
-        <script src="~/js/lib/react/browser.min.js"></script>
+        <script src="~/lib/react/react.js"></script>
+        <script src="~/lib/react/react-dom.js"></script>
+        <script src="~/lib/react/browser.min.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -61,9 +73,11 @@
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
         </script>
-        <script src="https://unpkg.com/react@15.3.2/dist/react.js" asp-fallback-src="~/js/lib/react/react.js" asp-fallback-test="window.React"></script>
-        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js" asp-fallback-src="~/js/lib/react/react-dom.js" asp-fallback-test="window.React"></script>
+        <script src="https://unpkg.com/react@15.3.2/dist/react.js" asp-fallback-src="~/lib/react/react.js" asp-fallback-test="window.React"></script>
+        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js" asp-fallback-src="~/lib/react/react-dom.js" asp-fallback-test="window.React"></script>
         <script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
     </environment>
+    <link rel="stylesheet" href="~/lib/react-data-grid/react-data-grid.css" />
+    <script src="~/lib/react-data-grid/react-data-grid.js"></script>
 </body>
 </html>
