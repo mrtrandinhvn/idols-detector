@@ -2,10 +2,13 @@
 
 module.exports = {
     context: path.join(__dirname, "wwwroot"),
-    entry: ["./lib/gs/gs-react-grid.jsx"],
+    entry: {
+        gsReactGrid: ["./lib/gs/gs-react-grid.jsx"],
+        gridDemo: ["./js/ReactTraining/grid-demo.jsx"]
+    },
     output: {
-        path: path.join(__dirname + "/wwwroot", "build"),
-        filename: "bundle.js"
+        path: path.join(__dirname + "/wwwroot/build/", "js"),
+        filename: "[name].bundle.js".toLowerCase()
     },
     module: {
         loaders: [
@@ -21,6 +24,9 @@ module.exports = {
     },
     resolve: {
         extensions: ["", ".js", ".jsx"],
+        root: [
+            path.join(__dirname, "wwwroot")
+        ]
     },
     externals: {
         react: "React"
