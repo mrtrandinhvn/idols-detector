@@ -1,0 +1,7 @@
+﻿.gs-react-grid .gs-react-grid-header {
+    font-weight: bold;
+}
+
+.gs-react-grid .gs-react-grid-row.selected {
+    background-color: #c1ecff;
+}

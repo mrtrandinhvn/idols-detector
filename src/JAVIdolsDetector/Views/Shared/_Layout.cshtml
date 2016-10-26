@@ -7,13 +7,11 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
@@ -63,6 +61,7 @@
         <script src="~/lib/react/react.js"></script>
         <script src="~/lib/react/react-dom.js"></script>
         <script src="~/lib/react/browser.min.js"></script>
+        <script src="~/lib/react-bootstrap/react-bootstrap.min.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -76,8 +75,10 @@
         <script src="https://unpkg.com/react@15.3.2/dist/react.js" asp-fallback-src="~/lib/react/react.js" asp-fallback-test="window.React"></script>
         <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js" asp-fallback-src="~/lib/react/react-dom.js" asp-fallback-test="window.React"></script>
         <script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.30.5/react-bootstrap.min.js"></script>
     </environment>
-    <link rel="stylesheet" href="~/lib/react-data-grid/react-data-grid.css" />
-    <script src="~/lib/react-data-grid/react-data-grid.js"></script>
+    <link rel="stylesheet" href=@Url.Content("~/lib/gs/gs-react-grid.css") />
+    <link rel="stylesheet" href=@Url.Content("~/lib/gs/gs-react-modal.css") />
+
 </body>
 </html>

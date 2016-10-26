@@ -2,6 +2,8 @@
 using JAVIdolsDetector.Models;
 using Microsoft.Extensions.Options;
 using JAVIdolsDetector.Models.Services;
+using JAVIdolsDetector.Models.UIControls;
+
 namespace JAVIdolsDetector.Controllers
 {
     public class AdminController : Controller
@@ -35,7 +37,7 @@ namespace JAVIdolsDetector.Controllers
             return this.Json(new { });
         }
         [HttpPost]
-        public IActionResult LoadPersonGroups()
+        public IActionResult LoadPersonGroups(GridOptions gridOptions)
         {
             return this.Json(PersonGroupServices.LoadPersonGroup(this.dbContext));
         }

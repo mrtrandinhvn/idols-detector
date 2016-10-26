@@ -4,7 +4,8 @@ module.exports = {
     context: path.join(__dirname, "wwwroot"),
     entry: {
         gsReactGrid: ["./lib/gs/gs-react-grid.jsx"],
-        gridDemo: ["./js/ReactTraining/grid-demo.jsx"]
+        gridDemo: ["./js/ReactTraining/grid-demo.jsx"],
+        adminIndex: ["./js/Admin/index.jsx"]
     },
     output: {
         path: path.join(__dirname + "/wwwroot/build/", "js"),

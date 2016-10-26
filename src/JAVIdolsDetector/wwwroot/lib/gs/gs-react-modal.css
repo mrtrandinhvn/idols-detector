@@ -1,0 +1,8 @@
+﻿.modal-open .modal {
+    display: flex !important;
+    height: 100%;
+}
+
+    .modal-open .modal .modal-dialog {
+        margin: auto;
+    }
