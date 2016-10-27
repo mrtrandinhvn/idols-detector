@@ -89,6 +89,10 @@ namespace JAVIdolsDetector.Models
                     .HasName("u_PersonGroup_1")
                     .IsUnique();
 
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
                 entity.Property(e => e.PersonGroupOnlineId)
                     .IsRequired()
                     .HasColumnType("varchar(64)");

@@ -1,20 +1,13 @@
 ﻿var GsReactSearchBox = require("lib/gs/gs-react-searchbox.jsx");
 var GsReactGrid = React.createClass({
-    getInitialState: function () {
-        return {
-            selectedRow: null
-        }
-    },
     onRowSelect: function (rowData) {
-        this.setState({
-            selectedRow: rowData[this.props.keyField]
-        })
+        this.props.onRowSelect(rowData);
     },
     render: function () {
         var rows = this.props.gridData.map(function (item) {
-            var selected = item[this.props.keyField] == this.state.selectedRow;
+            var selected = item[this.props.keyField] == this.props.selectedRow[this.props.keyField];
             return (
-                <GsReactGridRow rowData={item}
+                <GsReactGridRow rowData={$.extend({}, item)}
                                 key={item[this.props.keyField]}
                                 columns={this.props.columns}
                                 onRowSelect={this.onRowSelect }

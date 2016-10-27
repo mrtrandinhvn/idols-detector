@@ -1,3 +1,5 @@
+USE [IdolsDetector]
+GO
 CREATE TABLE Country
 (
 	CountryId		int IDENTITY(1,1),
@@ -48,4 +50,8 @@ CREATE TABLE Face -- PersistedFace
 	CONSTRAINT u_Face_2 UNIQUE(FaceOnlineId, PersonId),
 	CONSTRAINT fk_Person_Face FOREIGN KEY (PersonId) REFERENCES Person(PersonId)
 )
+GO
+ALTER TABLE PersonGroup ADD Name nvarchar(250) NOT NULL
+GO
+ALTER TABLE PersonGroup ADD CONSTRAINT DF_PersonGroup_TrainingStatus DEFAULT ('PersonGroupNotTrained') FOR TrainingStatus
 GO

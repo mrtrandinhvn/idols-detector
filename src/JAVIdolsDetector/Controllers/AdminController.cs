@@ -3,6 +3,8 @@ using JAVIdolsDetector.Models;
 using Microsoft.Extensions.Options;
 using JAVIdolsDetector.Models.Services;
 using JAVIdolsDetector.Models.UIControls;
+using JAVIdolsDetector.Interfaces.Implementations;
+using System;
 
 namespace JAVIdolsDetector.Controllers
 {
@@ -23,23 +25,33 @@ namespace JAVIdolsDetector.Controllers
             return View(PersonGroupServices.LoadPersonGroup(this.dbContext));
         }
         #region PersonGroup
-        [HttpPost]
-        public IActionResult CreatePersonGroup()
+        [HttpGet]
+        public IActionResult PersonGroupList()
         {
-            //FaceApiCaller.CreatePersonGroup(this.appSettings.ApiKey, "testgroup1", "Test Group 1");
-            return this.Json(new { });
-        }
-        [HttpPost]
-        public IActionResult DeletePersonGroup(PersonGroupServices service)
-        {
-            service.Delete(dbContext);
-            //FaceApiCaller.DeletePersonGroup(this.appSettings.ApiKey, "testgroup1", "Test Group 1");
-            return this.Json(new { });
+            return View(PersonGroupServices.LoadPersonGroup(this.dbContext));
         }
         [HttpPost]
         public IActionResult LoadPersonGroups(GridOptions gridOptions)
         {
             return this.Json(PersonGroupServices.LoadPersonGroup(this.dbContext));
+        }
+        [HttpPost]
+        public IActionResult DeletePersonGroup(PersonGroupServices form)
+        {
+            form.Delete(dbContext);
+            FaceApiCaller.DeletePersonGroup(this.appSettings.ApiKey, form.PersonGroup.PersonGroupOnlineId);
+            return this.Json(new { });
+        }
+
+        [HttpPost]
+        public IActionResult SavePersonGroup(PersonGroupServices form)
+        {
+            form.AddEdit(this.dbContext);
+            if (!form.Mode.Equals("edit", StringComparison.OrdinalIgnoreCase))
+            {
+                FaceApiCaller.CreatePersonGroup(this.appSettings.ApiKey, form.PersonGroup.PersonGroupOnlineId, form.PersonGroup.Name);
+            }
+            return this.Json(new { });
         }
         #endregion PersonGroup
     }

@@ -1,0 +1,1 @@
+Scaffold-DbContext "Data Source=localhost;Initial Catalog=IdolsDetector;Persist Security Info=True;User ID=IdolsDetectorAdmin;Password=1234554321;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -force

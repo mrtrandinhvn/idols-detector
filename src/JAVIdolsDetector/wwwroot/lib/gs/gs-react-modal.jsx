@@ -2,15 +2,7 @@
 var Button = ReactBootstrap.Button
 var GsReactModal = React.createClass({
     getInitialState: function () {
-        return {
-            showModal: false,
-        };
-    },
-    closeModal: function () {
-        this.setState({ showModal: false });
-    },
-    openModal: function () {
-        this.setState({ showModal: true });
+        return null;
     },
     saveChanges: function () {
         this.setState({ isLoading: true });
@@ -27,8 +19,7 @@ var GsReactModal = React.createClass({
     render: function () {
         return (
             <div className="gs-react-modal">
-                
-                <Modal show={this.state.showModal} onHide={this.closeModal } backdrop="static">
+                <Modal show={this.props.showModal} onHide={this.props.closeModal} backdrop="static">
                      <Modal.Header closeButton={true}>
                          <Modal.Title>{this.props.title}</Modal.Title>
                      </Modal.Header>
@@ -42,7 +33,7 @@ var GsReactModal = React.createClass({
                             {this.props.isLoading ? "Saving..." : "Save changes"}
                         </Button>
                         <Button disabled={this.props.isLoading}
-                                onClick={!this.props.isLoading ? this.closeModal : null}>
+                                onClick={!this.props.isLoading ? this.props.closeModal : null}>
                             Close
                         </Button>
                     </Modal.Footer>

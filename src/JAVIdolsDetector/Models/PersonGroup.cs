@@ -13,6 +13,7 @@ namespace JAVIdolsDetector.Models
         public int PersonGroupId { get; set; }
         public string PersonGroupOnlineId { get; set; }
         public string TrainingStatus { get; set; }
+        public string Name { get; set; }
 
         public virtual ICollection<Person> Person { get; set; }
     }

@@ -11,23 +11,24 @@ var App = React.createClass({
         return (
         <div>
     <h3>Sample grid</h3>
-    <GridDemo getUrl="/ReactTraining/LoadPersonGroups"></GridDemo>
+    <PersonGroupGrid getUrl="/Admin/LoadPersonGroups"></PersonGroupGrid>
         </div>);
     }
 });
 
 //Columns definition
 
-var GridDemo = React.createClass({
+var PersonGroupGrid = React.createClass({
     getInitialState: function () {
         return {
 
         };
     },
     columns: [
-        { key: "personGroupId", name: "Local Id", width: 80, sortable: true, resizable: true },
-        { key: "personGroupOnlineId", name: "Online Id", sortable: true, resizable: true },
-        { key: "trainingStatus", name: "Training Status", sortable: true, resizable: true }
+        { key: "personGroupId", name: "Local Id", width: 80, sortable: true },
+        { key: "personGroupOnlineId", name: "Online Id", sortable: true },
+        { key: "name", name: "Group Name", sortable: true },
+        { key: "trainingStatus", name: "Training Status", sortable: true },
     ],
     gridOptions: {
         filterOptions: {},
@@ -78,13 +79,7 @@ var GridDemo = React.createClass({
                               loadCall={function () { console.log("Modal Loading"); }}>
                     <div className="form-horizontal">
                         <div className="form-group">
-                            <label>Id</label><input className="form-control" defaultValue="" />
-                        </div>
-                        <div className="form-group">
-                            <label>Online Id</label><input className="form-control" defaultValue="" />
-                        </div>
-                        <div className="form-group">
-                            <label>Training Status</label><input className="form-control" defaultValue="" />
+                            <label>Group Name</label><input className="form-control" defaultValue="" />
                         </div>
                     </div>
                 </GsReactModal>
