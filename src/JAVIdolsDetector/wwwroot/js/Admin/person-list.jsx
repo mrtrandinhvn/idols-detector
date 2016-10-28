@@ -1,15 +1,15 @@
 ﻿var GsReactGrid = require("lib/gs/gs-react-grid.jsx");
-//var GsReactSearchBox = require("lib/gs/gs-react-searchbox.jsx");
+var GsSelect = require("lib/gs/gs-react-dropdownlist.jsx");
 var GsReactModal = require("lib/gs/gs-react-modal.jsx");
 var App = React.createClass({
     render: function () {
         return (
             <div>
-                <h3>Person Groups</h3>
-                <PersonGroupGrid getUrl="/Admin/LoadPersonGroups"
-                                 saveUrl="/Admin/SavePersonGroup"
-                                 deleteUrl="/Admin/DeletePersonGroup">
-                </PersonGroupGrid>
+                <h3>People</h3>
+                <PersonGrid getUrl="/Admin/LoadPeople"
+                            saveUrl="/Admin/SavePerson"
+                            deleteUrl="/Admin/DeletePerson">
+                </PersonGrid>
             </div>
         );
     }
@@ -17,12 +17,17 @@ var App = React.createClass({
 
 //Columns definition
 
-var PersonGroupGrid = React.createClass({
+var PersonGrid = React.createClass({
     columns: [
-        { key: "personGroupId", name: "Local Id", width: 80, sortable: true },
-        { key: "personGroupOnlineId", name: "Online Id", sortable: true },
-        { key: "name", name: "Group Name", sortable: true },
-        { key: "trainingStatus", name: "Training Status", sortable: true },
+        { key: "personId", name: "Local Id", width: 80, sortable: true },
+        { key: "personOnlineId", name: "Online Id", sortable: true },
+        { key: "name", name: "Name", sortable: true },
+        { key: "alias", name: "Alias", sortable: true },
+        { key: "birthDateString", name: "Birth Date", sortable: true },
+        { key: "height", name: "Height", sortable: true },
+        { key: "eyeColor", name: "Eye Color", sortable: true },
+        { key: "hairColor", name: "Hair Color", sortable: true },
+        { key: "countryId", name: "CountryId", sortable: true },
     ],
     gridOptions: {
         filterOptions: {},
@@ -35,11 +40,9 @@ var PersonGroupGrid = React.createClass({
             showModal: false,
             modalMode: "Add",
             selectedRow: {},
-            modalData: {
-                personGroupOnlineId: "",
-                name: ""
-            },
-            messages: []
+            modalData: {},
+            messages: [],
+            personGroupDDL: []
         }
     },
     loadData: function (args) {
@@ -86,7 +89,7 @@ var PersonGroupGrid = React.createClass({
             url: this.props.saveUrl,
             data: {
                 mode: this.state.modalMode.toLocaleLowerCase(),
-                personGroup: this.state.modalData
+                person: this.state.modalData
             },
             dataType: "json",
             type: "POST",
@@ -106,18 +109,63 @@ var PersonGroupGrid = React.createClass({
             }.bind(this)
         });
     },
+    modalLoadCall: function () {
+        $.ajax({
+            url: "/Admin/PersonGroupDDL",
+            type: "POST",
+            cache: false,
+            success: function (data) {
+                if (data.errors) {
+                    this.setState({
+                        messages: errors
+                    });
+                    return;
+                }
+                this.setState({ personGroupDDL: data });
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(this.props.saveUrl, status, err.toString());
+            }.bind(this)
+        });
+    },
     onRowSelect: function (rowData) {
         this.setState({ selectedRow: rowData });
     },
     // START form inputs events
-    onGroupIdChanged: function (e) {
+    onGroupIdChange: function (e) {
         var modalData = this.state.modalData;
-        modalData.personGroupOnlineId = e.target.value;
+        modalData.personGroupId = e.target.value;
         this.setState({ modalData: modalData });
     },
-    onGroupNameChanged: function (e) {
+    onNameChange: function (e) {
         var modalData = this.state.modalData;
         modalData.name = e.target.value;
+        this.setState({ modalData: modalData });
+    },
+    onAliasChange: function (e) {
+        var modalData = this.state.modalData;
+        modalData.alias = e.target.value;
+        this.setState({ modalData: modalData });
+    },
+    onBirthDateChange: function (e) {
+        var modalData = this.state.modalData;
+        modalData.birthDate = e.target.value;
+        modalData.birthDateString = e.target.value;
+        this.setState({ modalData: modalData });
+    },
+    onHeightChange: function (e) {
+        var modalData = this.state.modalData;
+        modalData.height = e.target.value;
+        this.setState({ modalData: modalData });
+    },
+    onEyeColorChange: function (e) {
+        var modalData = this.state.modalData;
+        modalData.eyeColor = e.target.value;
+        this.setState({ modalData: modalData });
+    },
+    onHairColorChange: function (e) {
+        var modalData = this.state.modalData;
+        modalData.hairColor = e.target.value;
         this.setState({ modalData: modalData });
     },
     // END form inputs events
@@ -125,7 +173,7 @@ var PersonGroupGrid = React.createClass({
         $.ajax({
             url: this.props.deleteUrl,
             data: {
-                personGroup: this.state.selectedRow
+                person: this.state.selectedRow
             },
             dataType: "json",
             type: "POST",
@@ -154,15 +202,30 @@ var PersonGroupGrid = React.createClass({
                 </div>
                 <GsReactModal title={this.state.modalMode + " Person Group"}
                               saveCall={this.modalSaveCall}
-                              loadCall={function () { console.log("Modal Loading"); }}
+                              loadCall={this.modalLoadCall}
                               showModal={this.state.showModal}
                               closeModal={this.closeModal}>
                     <div className="form">
                         <div className="form-group">
-                            <label className="">GroupId</label><input className="form-control" type="text" onChange={this.onGroupIdChanged} value={this.state.modalData.personGroupOnlineId || ""} disabled={this.state.modalMode == "edit"} />
+                            <label className="">Group</label><GsSelect disabled={this.state.modalMode.toLocaleLowerCase()=="edit"} className="form-control" options={this.state.personGroupDDL} onChange={this.onGroupIdChange} value={this.state.modalData.personGroupId || ""}></GsSelect>
                         </div>
                         <div className="form-group">
-                            <label>Group Name</label><input className="form-control" type="text" onChange={this.onGroupNameChanged} value={this.state.modalData.name || ""} />
+                            <label className="">Name</label><input className="form-control" type="text" onChange={this.onNameChange} value={this.state.modalData.name || ""} />
+                        </div>
+                        <div className="form-group">
+                            <label>Alias</label><input className="form-control" type="text" onChange={this.onAliasChange} value={this.state.modalData.alias || ""} />
+                        </div>
+                        <div className="form-group">
+                            <label>Birth Date</label><input className="form-control" type="date" onChange={this.onBirthDateChange} value={this.state.modalData.birthDateString || ""} />
+                        </div>
+                        <div className="form-group">
+                            <label>Height</label><input className="form-control" type="number" onChange={this.onHeightChange} value={this.state.modalData.height || ""} />
+                        </div>
+                        <div className="form-group">
+                            <label>Eye Color</label><input className="form-control" type="text" onChange={this.onEyeColorChange} value={this.state.modalData.eyeColor || ""} />
+                        </div>
+                        <div className="form-group">
+                            <label>Hair Color</label><input className="form-control" type="text" onChange={this.onHairColorChange} value={this.state.modalData.hairColor || ""} />
                         </div>
                     </div>
                     <div className="info">
@@ -173,7 +236,7 @@ var PersonGroupGrid = React.createClass({
                 </GsReactModal>
                 <GsReactGrid columns={this.columns}
                              gridData={this.state.rows}
-                             keyField="personGroupId"
+                             keyField="personId"
                              className="gs-react-grid"
                              onRowSelect={this.onRowSelect}
                              selectedRow={this.state.selectedRow}>

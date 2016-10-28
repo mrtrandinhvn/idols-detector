@@ -14,6 +14,17 @@ namespace JAVIdolsDetector.Models
         public Guid PersonOnlineId { get; set; }
         public int PersonGroupId { get; set; }
         public string Name { get; set; }
+        public string BirthDateString
+        {
+            get
+            {
+                if (BirthDate == null)
+                {
+                    return string.Empty;
+                }
+                return ((DateTime)this.BirthDate).ToString("yyyy-MM-dd");
+            }
+        }
         public DateTime? BirthDate { get; set; }
         public string Alias { get; set; }
         public double? Height { get; set; }

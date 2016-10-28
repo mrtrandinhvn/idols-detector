@@ -33,17 +33,10 @@ namespace JAVIdolsDetector.Models.Services
             dbContext.PersonGroup.Remove(this.PersonGroup);
             dbContext.SaveChanges();
         }
-        public static object LoadPersonGroup(IdolsDetectorContext dbContext)
+        public static IEnumerable<PersonGroup> LoadPersonGroup(IdolsDetectorContext dbContext, int? groupId = null)
         {
             var result = new List<PersonGroup>();
-            result = dbContext.PersonGroup.ToList();
-            //// fake data
-            //result.Add(new PersonGroup() { PersonGroupId = 1, Name = "JAV", TrainingStatus = "Ready" });
-            //result.Add(new PersonGroup() { PersonGroupId = 2, TrainingStatus = "Not Ready" });
-            //result.Add(new PersonGroup() { PersonGroupId = 3, TrainingStatus = "Ready" });
-            //result.Add(new PersonGroup() { PersonGroupId = 4, TrainingStatus = "Not Ready" });
-            //result.Add(new PersonGroup() { PersonGroupId = 5, TrainingStatus = "Not Ready" });
-            //result.Add(new PersonGroup() { PersonGroupId = 6, TrainingStatus = "Ready" });
+            result = dbContext.PersonGroup.Where(pg => ((pg.PersonGroupId == groupId) || (groupId == null))).ToList();
             return result;
         }
     }

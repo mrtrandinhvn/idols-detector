@@ -30,16 +30,16 @@ namespace JAVIdolsDetector.Controllers
         {
             return View(PersonGroupServices.LoadPersonGroup(this.dbContext));
         }
-        [HttpPost]
-        public IActionResult LoadPersonGroups(GridOptions gridOptions)
+        [HttpPost, HttpGet]
+        public IActionResult LoadPersonGroups(GridOptions gridOptions, int? groupId)
         {
-            return this.Json(PersonGroupServices.LoadPersonGroup(this.dbContext));
+            return this.Json(PersonGroupServices.LoadPersonGroup(this.dbContext, groupId));
         }
         [HttpPost]
         public IActionResult DeletePersonGroup(PersonGroupServices form)
         {
             form.Delete(dbContext);
-            FaceApiCaller.DeletePersonGroup(this.appSettings.ApiKey, form.PersonGroup.PersonGroupOnlineId);
+            //FaceApiCaller.DeletePersonGroup(this.appSettings.ApiKey, form.PersonGroup.PersonGroupOnlineId);
             return this.Json(new { });
         }
 
@@ -49,10 +49,42 @@ namespace JAVIdolsDetector.Controllers
             form.AddEdit(this.dbContext);
             if (!form.Mode.Equals("edit", StringComparison.OrdinalIgnoreCase))
             {
-                FaceApiCaller.CreatePersonGroup(this.appSettings.ApiKey, form.PersonGroup.PersonGroupOnlineId, form.PersonGroup.Name);
+                //FaceApiCaller.CreatePersonGroup(this.appSettings.ApiKey, form.PersonGroup.PersonGroupOnlineId, form.PersonGroup.Name);
             }
             return this.Json(new { });
         }
         #endregion PersonGroup
+        #region Person
+        [HttpPost]
+        public IActionResult SavePerson(PersonServices form)
+        {
+            form.AddEdit(this.dbContext);
+            if (!form.Mode.Equals("edit", StringComparison.OrdinalIgnoreCase))
+            {
+                //FaceApiCaller.CreatePersonGroup(this.appSettings.ApiKey, form.PersonGroup.PersonGroupOnlineId, form.PersonGroup.Name);
+            }
+            return this.Json(new { });
+        }
+        public IActionResult PersonList()
+        {
+            return View();
+        }
+        public IActionResult LoadPeople(GridOptions gridOptions, int? groupId, int? personId)
+        {
+            return this.Json(PersonServices.LoadPeople(this.dbContext));
+        }
+        public IActionResult DeletePerson(PersonServices form)
+        {
+            form.Delete(dbContext);
+            return this.Json(new { });
+        }
+        #endregion Person
+        #region Commons
+        [HttpPost]
+        public IActionResult PersonGroupDDL()
+        {
+            return Json(Lookups.GetPersonGroups(this.dbContext));
+        }
+        #endregion
     }
 }
