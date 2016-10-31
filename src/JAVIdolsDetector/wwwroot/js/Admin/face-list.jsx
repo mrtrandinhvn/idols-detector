@@ -1,15 +1,15 @@
 ﻿var GsReactGrid = require("lib/gs/gs-react-grid.jsx");
-//var GsReactSearchBox = require("lib/gs/gs-react-searchbox.jsx");
+var GsSelect = require("lib/gs/gs-react-dropdownlist.jsx");
 var GsReactModal = require("lib/gs/gs-react-modal.jsx");
 var App = React.createClass({
     render: function () {
         return (
             <div>
-                <h3>Person Groups</h3>
-                <PersonGroupGrid getUrl="/Admin/LoadPersonGroups"
-                                 saveUrl="/Admin/SavePersonGroup"
-                                 deleteUrl="/Admin/DeletePersonGroup">
-                </PersonGroupGrid>
+                <h3>Faces</h3>
+                <FaceGrid getUrl="/Admin/LoadFaces"
+                          saveUrl="/Admin/SaveFace"
+                          deleteUrl="/Admin/DeleteFace">
+                </FaceGrid>
             </div>
         );
     }
@@ -17,12 +17,12 @@ var App = React.createClass({
 
 //Columns definition
 
-var PersonGroupGrid = React.createClass({
+var FaceGrid = React.createClass({
     columns: [
-        { key: "personGroupId", name: "Local Id", width: 80, sortable: true },
-        { key: "personGroupOnlineId", name: "Online Id", sortable: true },
-        { key: "name", name: "Group Name", sortable: true },
-        { key: "trainingStatus", name: "Training Status", sortable: true },
+        { key: "faceId", name: "Local Id", width: 80, sortable: true },
+        { key: "faceOnlineId", name: "Online Id", sortable: true },
+        { key: "personId", name: "PersonId", sortable: true },
+        { key: "imageUrl", name: "Image URL", sortable: true }
     ],
     gridOptions: {
         filterOptions: {},
@@ -35,11 +35,9 @@ var PersonGroupGrid = React.createClass({
             showModal: false,
             modalMode: "Add",
             selectedRow: {},
-            modalData: {
-                personGroupOnlineId: "",
-                name: ""
-            },
-            messages: []
+            modalData: {},
+            messages: [],
+            personDDL: []
         }
     },
     loadData: function (args) {
@@ -54,6 +52,7 @@ var PersonGroupGrid = React.createClass({
             success: function (data) {
                 if (data) {
                     this.setState({
+                        selectedRow: {},
                         rows: data
                     });
                 }
@@ -71,7 +70,8 @@ var PersonGroupGrid = React.createClass({
         this.setState({
             showModal: true,
             modalMode: mode,
-            modalData: data
+            modalData: data,
+            messages: []
         });
     },
     componentDidMount: function () {
@@ -81,12 +81,50 @@ var PersonGroupGrid = React.createClass({
         this.gridOptions = $.extend({}, this.gridOptions, { sortingOptions: { orderBy: sortColumn, direction: sortDirection } });
         this.loadData();
     },
+    validateModal: function () {
+        var messages = [];
+        if (!this.state.modalData) {
+            this.setState({
+                messages: [{ text: "Can not get the modal data", type: "error" }]
+            });
+            return false;
+        }
+        if (!this.state.modalData.personId) {
+            messages.push({
+                type: "error",
+                text: "Please select a person, a face must be belong to a person."
+            });
+        }
+        if (!this.state.modalData.imageUrl) {
+            messages.push({
+                type: "error",
+                text: "Please enter an URL, that field is required."
+            });
+        } else if (this.state.modalData.imageUrl.length > 500) {
+            messages.push({
+                type: "error",
+                text: "Image Url can not exceed 500 characters."
+            });
+        }
+        this.setState({
+            messages: messages
+        });
+        if (messages.length > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    },
     modalSaveCall: function () {
+        if (!this.validateModal()) {
+            return; // do nothing if there're errors
+        }
+        // call Save API
         $.ajax({
             url: this.props.saveUrl,
             data: {
                 mode: this.state.modalMode.toLocaleLowerCase(),
-                personGroup: this.state.modalData
+                face: this.state.modalData
             },
             dataType: "json",
             type: "POST",
@@ -106,18 +144,39 @@ var PersonGroupGrid = React.createClass({
             }.bind(this)
         });
     },
+    modalLoadCall: function () {
+        $.ajax({
+            url: "/Admin/PersonDDL",
+            type: "POST",
+            cache: false,
+            success: function (data) {
+                if (data.errors) {
+                    this.setState({
+                        messages: errors
+                    });
+                    return;
+                }
+                this.setState({
+                    personDDL: data
+                });
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(this.props.saveUrl, status, err.toString());
+            }.bind(this)
+        });
+    },
     onRowSelect: function (rowData) {
         this.setState({ selectedRow: rowData });
     },
     // START form inputs events
-    onGroupIdChanged: function (e) {
+    onPersonIdChange: function (e) {
         var modalData = this.state.modalData;
-        modalData.personGroupOnlineId = e.target.value;
+        modalData.personId = e.target.value;
         this.setState({ modalData: modalData });
     },
-    onGroupNameChanged: function (e) {
+    onImageUrlChange: function (e) {
         var modalData = this.state.modalData;
-        modalData.name = e.target.value;
+        modalData.imageUrl = e.target.value;
         this.setState({ modalData: modalData });
     },
     // END form inputs events
@@ -125,7 +184,7 @@ var PersonGroupGrid = React.createClass({
         $.ajax({
             url: this.props.deleteUrl,
             data: {
-                personGroup: this.state.selectedRow
+                face: this.state.selectedRow
             },
             dataType: "json",
             type: "POST",
@@ -150,30 +209,35 @@ var PersonGroupGrid = React.createClass({
                 <div className="btn-group">
                     <button type="button" className="btn btn-info" onClick={function () { this.openModal("Add"); }.bind(this)}>Add</button>
                     <button className="btn btn-warning" onClick={function () { this.openModal("Edit"); }.bind(this)} disabled={$.isEmptyObject(this.state.selectedRow)}>Edit</button>
-                    <button className="btn btn-danger" onClick={this.deleteRecord}>Delete</button>
+                    <button className="btn btn-danger" onClick={this.deleteRecord} disabled={$.isEmptyObject(this.state.selectedRow)}>Delete</button>
                 </div>
-                <GsReactModal title={this.state.modalMode + " A Person Group"}
+                <GsReactModal title={this.state.modalMode + " A Face"}
                               saveCall={this.modalSaveCall}
-                              loadCall={function () { console.log("Modal Loading"); }}
+                              loadCall={this.modalLoadCall}
                               showModal={this.state.showModal}
                               closeModal={this.closeModal}>
                     <div className="form">
                         <div className="form-group">
-                            <label className="">GroupId</label><input className="form-control" type="text" onChange={this.onGroupIdChanged} value={this.state.modalData.personGroupOnlineId || ""} disabled={this.state.modalMode == "edit"} />
+                            <label className="">Person</label><GsSelect onChange={this.onPersonIdChange}
+                                                                        disabled={this.state.modalMode.toLocaleLowerCase() == "edit"}
+                                                                        options={this.state.personDDL}
+                                                                        value={this.state.modalData.personId || ""}></GsSelect>
                         </div>
                         <div className="form-group">
-                            <label>Group Name</label><input className="form-control" type="text" onChange={this.onGroupNameChanged} value={this.state.modalData.name || ""} />
+                            <label className="">Image URL</label><input className="form-control" type="text" onChange={this.onImageUrlChange} value={this.state.modalData.imageUrl || ""} />
                         </div>
                     </div>
                     <div className="info">
-                        {this.state.messages.map(function (mes) {
-                            return (<div>{mes}</div>)
-                        })}
+                        {
+                            this.state.messages.map(function (mes, i) {
+                                return (<div key={i} className={mes.type }>- {mes.text}</div>)
+                            })
+                        }
                     </div>
                 </GsReactModal>
                 <GsReactGrid columns={this.columns}
                              gridData={this.state.rows}
-                             keyField="personGroupId"
+                             keyField="faceId"
                              className="gs-react-grid"
                              onRowSelect={this.onRowSelect}
                              selectedRow={this.state.selectedRow}>

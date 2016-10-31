@@ -1,0 +1,15 @@
+Person Groups:
+	- Validation.
+	- Add
+	- EDIT
+	- DELETE
+People:
+	- Validation.
+	- Add
+	- EDIT
+	- DELETE
+Faces:
+	- Validation.
+	- Add
+	- EDIT
+	- DELETE

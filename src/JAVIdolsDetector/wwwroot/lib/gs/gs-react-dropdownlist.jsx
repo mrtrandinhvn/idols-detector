@@ -4,7 +4,11 @@
             return (<option key={option.value} value={option.value }>{option.label}</option>)
         });
         return (
-            <select className="gs-react-dropdownlist form-control" onChange={this.props.onChange} disabled={this.props.disabled}>
+            <select className="gs-react-dropdownlist form-control"
+                    onChange={this.props.onChange}
+                    disabled={this.props.disabled}
+                    value={this.props.value}>
+                <option value="">None</option>
                 {options}
             </select>
         );

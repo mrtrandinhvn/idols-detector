@@ -79,11 +79,41 @@ namespace JAVIdolsDetector.Controllers
             return this.Json(new { });
         }
         #endregion Person
+        #region Face
+        [HttpPost]
+        public IActionResult SaveFace(FaceServices form)
+        {
+            form.AddEdit(this.dbContext);
+            if (!form.Mode.Equals("edit", StringComparison.OrdinalIgnoreCase))
+            {
+                // call API
+            }
+            return this.Json(new { });
+        }
+        public IActionResult FaceList()
+        {
+            return View();
+        }
+        public IActionResult LoadFaces(GridOptions gridOptions, int? groupId, int? FaceId)
+        {
+            return this.Json(FaceServices.LoadFaces(this.dbContext));
+        }
+        public IActionResult DeleteFace(FaceServices form)
+        {
+            form.Delete(dbContext);
+            // Call API
+            return this.Json(new { });
+        }
+        #endregion Face
         #region Commons
         [HttpPost]
         public IActionResult PersonGroupDDL()
         {
             return Json(Lookups.GetPersonGroups(this.dbContext));
+        }
+        public IActionResult PersonDDL()
+        {
+            return Json(Lookups.GetPeople(this.dbContext));
         }
         #endregion
     }

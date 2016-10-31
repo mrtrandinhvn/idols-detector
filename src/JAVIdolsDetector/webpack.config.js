@@ -6,7 +6,8 @@ module.exports = {
         gsReactGrid: ["./lib/gs/gs-react-grid.jsx"],
         gridDemo: ["./js/ReactTraining/grid-demo.jsx"],
         adminPersonGroupList: ["./js/Admin/person-group-list.jsx"],
-        adminPersonList: ["./js/Admin/person-list.jsx"]
+        adminPersonList: ["./js/Admin/person-list.jsx"],
+        adminFaceList: ["./js/Admin/face-list.jsx"]
     },
     output: {
         path: path.join(__dirname + "/wwwroot/build/", "js"),

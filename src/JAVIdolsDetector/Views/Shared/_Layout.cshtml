@@ -13,6 +13,7 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
     </environment>
+    <link rel="stylesheet" href="@Url.Content("~/css/global.css")"/>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -41,6 +42,7 @@
                         <ul class="dropdown-menu">
                             <li><a asp-area="" asp-controller="Admin" asp-action="PersonGroupList">Person Groups</a></li>
                             <li><a asp-area="" asp-controller="Admin" asp-action="PersonList">People</a></li>
+                            <li><a asp-area="" asp-controller="Admin" asp-action="FaceList">Faces</a></li>
                         </ul>
                     </li>
 

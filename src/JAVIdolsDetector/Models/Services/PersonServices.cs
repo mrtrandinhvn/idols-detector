@@ -28,6 +28,7 @@ namespace JAVIdolsDetector.Models.Services
             }
             else
             {
+                this.Person.PersonOnlineId = Guid.NewGuid();
                 dbContext.Person.Add(this.Person);
             }
             dbContext.SaveChanges();
