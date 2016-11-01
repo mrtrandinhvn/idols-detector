@@ -59,6 +59,7 @@ var PersonGroupGrid = React.createClass({
                 }
             }.bind(this),
             error: function (xhr, status, err) {
+                debugger;
                 console.error(this.props.getUrl, status, err.toString());
             }.bind(this)
         });
@@ -71,7 +72,8 @@ var PersonGroupGrid = React.createClass({
         this.setState({
             showModal: true,
             modalMode: mode,
-            modalData: data
+            modalData: data,
+            messages: []
         });
     },
     componentDidMount: function () {
@@ -80,6 +82,24 @@ var PersonGroupGrid = React.createClass({
     handleGridSort: function (sortColumn, sortDirection) {
         this.gridOptions = $.extend({}, this.gridOptions, { sortingOptions: { orderBy: sortColumn, direction: sortDirection } });
         this.loadData();
+    },
+    validateModal: function () {
+        var messages = [];
+        if (!this.state.modalData) {
+            this.setState({
+                messages: [{ text: "Can not get the modal data", type: "error" }]
+            });
+            return false;
+        }
+        // add extra validations below
+        this.setState({
+            messages: messages
+        });
+        if (messages.length > 0) {
+            return false;
+        } else {
+            return true;
+        }
     },
     modalSaveCall: function () {
         $.ajax({
@@ -107,6 +127,9 @@ var PersonGroupGrid = React.createClass({
         });
     },
     onRowSelect: function (rowData) {
+        if (this.state.selectedRow.personGroupId == rowData.personGroupId) {
+            rowData = {}; // clear selected row
+        }
         this.setState({ selectedRow: rowData });
     },
     // START form inputs events
@@ -140,7 +163,8 @@ var PersonGroupGrid = React.createClass({
                 this.loadData();
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(this.props.saveUrl, status, err.toString());
+                //this.setState({ messages: [{ type: status, text: err }] });
+                console.log(err);
             }.bind(this)
         });
     },
@@ -150,7 +174,7 @@ var PersonGroupGrid = React.createClass({
                 <div className="btn-group">
                     <button type="button" className="btn btn-info" onClick={function () { this.openModal("Add"); }.bind(this)}>Add</button>
                     <button className="btn btn-warning" onClick={function () { this.openModal("Edit"); }.bind(this)} disabled={$.isEmptyObject(this.state.selectedRow)}>Edit</button>
-                    <button className="btn btn-danger" onClick={this.deleteRecord}>Delete</button>
+                    <button className="btn btn-danger" onClick={this.deleteRecord} disabled={$.isEmptyObject(this.state.selectedRow)}>Delete</button>
                 </div>
                 <GsReactModal title={this.state.modalMode + " A Person Group"}
                               saveCall={this.modalSaveCall}
@@ -166,9 +190,11 @@ var PersonGroupGrid = React.createClass({
                         </div>
                     </div>
                     <div className="info">
-                        {this.state.messages.map(function (mes) {
-                            return (<div>{mes}</div>)
-                        })}
+                        {
+                            this.state.messages.map(function (mes, i) {
+                                return (<div key={i} className={mes.type }>- {mes.text}</div>)
+                            })
+                        }
                     </div>
                 </GsReactModal>
                 <GsReactGrid columns={this.columns}

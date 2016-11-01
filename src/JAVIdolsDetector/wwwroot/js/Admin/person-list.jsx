@@ -164,6 +164,9 @@ var PersonGrid = React.createClass({
         });
     },
     onRowSelect: function (rowData) {
+        if (this.state.selectedRow.personId == rowData.personId) {
+            rowData = {}; // clear selected row
+        }
         this.setState({ selectedRow: rowData });
     },
     // START form inputs events

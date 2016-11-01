@@ -166,6 +166,9 @@ var FaceGrid = React.createClass({
         });
     },
     onRowSelect: function (rowData) {
+        if (this.state.selectedRow.faceId == rowData.faceId) {
+            rowData = {}; // clear selected row
+        }
         this.setState({ selectedRow: rowData });
     },
     // START form inputs events
