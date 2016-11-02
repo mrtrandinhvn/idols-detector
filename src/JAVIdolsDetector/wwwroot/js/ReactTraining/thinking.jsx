@@ -1,4 +1,6 @@
-﻿var App = React.createClass({
+﻿var React = require("react");
+var ReactDOM = require("react-dom");
+var App = React.createClass({
     render: function () {
         return (
         <div>
@@ -68,12 +70,12 @@ var FilterableProductTabe = React.createClass({
                         // has filter
                         if (!isStocked) {
                             // has filter, no stock only
-                            if (product.name.toLowerCase().includes(filter.toLowerCase())) {
+                            if (product.name.toLowerCase().indexOf(filter.toLowerCase()) > -1) {
                                 data.push(product);
                             }
                         } else {
                             // has filter, has stock only
-                            if (product.stocked && product.name.toLowerCase().includes(filter.toLowerCase())) {
+                            if (product.stocked && product.name.toLowerCase().indexOf(filter.toLowerCase()) > -1) {
                                 data.push(product);
                             }
                         }

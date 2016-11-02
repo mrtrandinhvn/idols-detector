@@ -1,4 +1,5 @@
-﻿var GsReactDropDownList = React.createClass({
+﻿var React = require("react");
+var GsReactDropDownList = React.createClass({
     render: function () {
         var options = this.props.options.map(function (option) {
             return (<option key={option.value} value={option.value }>{option.label}</option>)

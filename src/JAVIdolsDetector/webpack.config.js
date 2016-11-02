@@ -5,6 +5,9 @@ module.exports = {
     entry: {
         gsReactGrid: ["./lib/gs/gs-react-grid.jsx"],
         gridDemo: ["./js/ReactTraining/grid-demo.jsx"],
+        homeIndex: ["./js/Home/index.jsx"],
+        reactTrainingIndex: ["./js/ReactTraining/index.jsx"],
+        reactTrainingThinking: ["./js/ReactTraining/thinking.jsx"],
         adminPersonGroupList: ["./js/Admin/person-group-list.jsx"],
         adminPersonList: ["./js/Admin/person-list.jsx"],
         adminFaceList: ["./js/Admin/face-list.jsx"]
@@ -32,6 +35,8 @@ module.exports = {
         ]
     },
     externals: {
-        react: "React"
+        "react": "React",
+        "react-dom": "ReactDOM",
+        "react-bootstrap": "ReactBootstrap"
     }
 };

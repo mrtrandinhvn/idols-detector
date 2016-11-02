@@ -1,4 +1,6 @@
-﻿var GsReactGrid = require("lib/gs/gs-react-grid.jsx");
+﻿var React = require("react");
+var ReactDOM = require("react-dom");
+var GsReactGrid = require("lib/gs/gs-react-grid.jsx");
 var GsSelect = require("lib/gs/gs-react-dropdownlist.jsx");
 var GsReactModal = require("lib/gs/gs-react-modal.jsx");
 var App = React.createClass({
@@ -100,7 +102,7 @@ var PersonGrid = React.createClass({
                 text: "Please select a person group, a person must be belong to a person group."
             });
         }
-        if (!this.state.modalData.imageUrl) {
+        if (!this.state.modalData.name) {
             messages.push({
                 type: "error",
                 text: "Please enter a Name, that field is required."
@@ -288,5 +290,4 @@ var PersonGrid = React.createClass({
     );
     }
 });
-
 ReactDOM.render(<App></App>, document.querySelector(".react-app"));

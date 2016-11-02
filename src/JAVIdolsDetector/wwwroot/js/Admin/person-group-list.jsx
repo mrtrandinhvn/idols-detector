@@ -1,4 +1,6 @@
-﻿var GsReactGrid = require("lib/gs/gs-react-grid.jsx");
+﻿var React = require("react");
+var ReactDOM = require("react-dom");
+var GsReactGrid = require("lib/gs/gs-react-grid.jsx");
 //var GsReactSearchBox = require("lib/gs/gs-react-searchbox.jsx");
 var GsReactModal = require("lib/gs/gs-react-modal.jsx");
 var App = React.createClass({

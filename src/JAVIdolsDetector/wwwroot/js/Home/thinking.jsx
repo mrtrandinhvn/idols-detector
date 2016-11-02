@@ -1,4 +1,6 @@
-﻿var App = React.createClass({
+﻿var React = require("react");
+var ReactDOM = require("react-dom");
+var App = React.createClass({
     render: function () {
         return (<FilterableProductTabe apiUrl="http://localhost:3000/api/products" />);
     }

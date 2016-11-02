@@ -2,6 +2,18 @@
     font-weight: bold;
 }
 
+    .gs-react-grid .gs-react-grid-header:hover {
+        background-color: #f5f5f5;
+    }
+
 .gs-react-grid .gs-react-grid-row.selected {
     background-color: #c1ecff;
 }
+
+.gs-react-grid {
+    cursor: default;
+}
+
+    .gs-react-grid .gs-react-grid-header.sortable {
+        cursor: pointer;
+    }
