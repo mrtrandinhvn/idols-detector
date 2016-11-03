@@ -3,6 +3,7 @@ var ReactDOM = require("react-dom");
 var GsReactGrid = require("lib/gs/gs-react-grid.jsx");
 var GsSelect = require("lib/gs/gs-react-dropdownlist.jsx");
 var GsReactModal = require("lib/gs/gs-react-modal.jsx");
+var BootBox = require("bootbox");
 var App = React.createClass({
     render: function () {
         return (
@@ -65,7 +66,7 @@ var PersonGrid = React.createClass({
                 }
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(this.props.getUrl, status, err.toString());
+                BootBox.alert(this.props.saveUrl + ": " + err.toString());
             }.bind(this)
         });
     },
@@ -142,7 +143,7 @@ var PersonGrid = React.createClass({
                 this.loadData();
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(this.props.saveUrl, status, err.toString());
+                BootBox.alert(this.props.saveUrl + ": " + err.toString());
             }.bind(this)
         });
     },
@@ -161,7 +162,7 @@ var PersonGrid = React.createClass({
                 this.setState({ personGroupDDL: data });
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(this.props.saveUrl, status, err.toString());
+                BootBox.alert(this.props.saveUrl + ": " + err.toString());
             }.bind(this)
         });
     },
@@ -228,7 +229,7 @@ var PersonGrid = React.createClass({
                 this.loadData();
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(this.props.saveUrl, status, err.toString());
+                BootBox.alert(this.props.saveUrl + ": " + err.toString());
             }.bind(this)
         });
     },

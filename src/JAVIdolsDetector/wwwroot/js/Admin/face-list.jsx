@@ -3,6 +3,9 @@ var ReactDOM = require("react-dom");
 var GsReactGrid = require("lib/gs/gs-react-grid.jsx");
 var GsSelect = require("lib/gs/gs-react-dropdownlist.jsx");
 var GsReactModal = require("lib/gs/gs-react-modal.jsx");
+var BootBox = require("bootbox");
+var GsCommons = require("lib/gs/gs-commons.js");
+
 var App = React.createClass({
     render: function () {
         return (
@@ -142,7 +145,7 @@ var FaceGrid = React.createClass({
                 this.loadData();
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(this.props.saveUrl, status, err.toString());
+                BootBox.alert(this.props.saveUrl + ": " + err.toString());
             }.bind(this)
         });
     },
@@ -163,7 +166,7 @@ var FaceGrid = React.createClass({
                 });
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(this.props.saveUrl, status, err.toString());
+                BootBox.alert(this.props.saveUrl + ": " + err.toString());
             }.bind(this)
         });
     },
@@ -204,17 +207,20 @@ var FaceGrid = React.createClass({
                 this.loadData();
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(this.props.saveUrl, status, err.toString());
+                BootBox.alert(this.props.saveUrl + ": " + err.toString());
             }.bind(this)
         });
     },
     render: function () {
         return (
             <div>
-                <div className="btn-group">
+                <div className="header-actions">
+                    <div className="btn-group pull-right">
                     <button type="button" className="btn btn-info" onClick={function () { this.openModal("Add"); }.bind(this)}>Add</button>
                     <button className="btn btn-warning" onClick={function () { this.openModal("Edit"); }.bind(this)} disabled={$.isEmptyObject(this.state.selectedRow)}>Edit</button>
                     <button className="btn btn-danger" onClick={this.deleteRecord} disabled={$.isEmptyObject(this.state.selectedRow)}>Delete</button>
+                    </div>
+                    <div style={{clear:"both",height:0}}></div>
                 </div>
                 <GsReactModal title={this.state.modalMode + " A Face"}
                               saveCall={this.modalSaveCall}
@@ -229,8 +235,11 @@ var FaceGrid = React.createClass({
                                                                         value={this.state.modalData.personId || ""}></GsSelect>
                         </div>
                         <div className="form-group">
-                            <label className="">Image URL</label><input className="form-control" type="text" onChange={this.onImageUrlChange} value={this.state.modalData.imageUrl || ""} />
+                            <label className="">Enter Image URL</label><input type="text" className="form-control" onChange={this.onImageUrlChange} value={this.state.modalData.imageUrl || ""} />
                         </div>
+                        {/*<div className="form-group">
+                            <label className="">Or upload an image</label><input type="file" accept="image/*" className="form-control" />
+                        </div>*/}
                     </div>
                     <div className="info">
                         {

@@ -1,8 +1,8 @@
 ﻿var React = require("react");
 var ReactDOM = require("react-dom");
 var GsReactGrid = require("lib/gs/gs-react-grid.jsx");
-//var GsReactSearchBox = require("lib/gs/gs-react-searchbox.jsx");
 var GsReactModal = require("lib/gs/gs-react-modal.jsx");
+var BootBox = require("bootbox");
 var App = React.createClass({
     render: function () {
         return (
@@ -61,8 +61,7 @@ var PersonGroupGrid = React.createClass({
                 }
             }.bind(this),
             error: function (xhr, status, err) {
-                debugger;
-                console.error(this.props.getUrl, status, err.toString());
+                BootBox.alert(this.props.saveUrl + ": " + err.toString());
             }.bind(this)
         });
     },
@@ -114,9 +113,9 @@ var PersonGroupGrid = React.createClass({
             type: "POST",
             cache: false,
             success: function (data) {
-                if (data.errors) {
+                if (data.messages) {
                     this.setState({
-                        messages: errors
+                        messages: data.messages
                     });
                     return;
                 }
@@ -124,7 +123,9 @@ var PersonGroupGrid = React.createClass({
                 this.loadData();
             }.bind(this),
             error: function (xhr, status, err) {
-                console.error(this.props.saveUrl, status, err.toString());
+                this.setState({
+                    messages: [{ type: "error", message: err }]
+                });
             }.bind(this)
         });
     },
@@ -165,8 +166,7 @@ var PersonGroupGrid = React.createClass({
                 this.loadData();
             }.bind(this),
             error: function (xhr, status, err) {
-                //this.setState({ messages: [{ type: status, text: err }] });
-                console.log(err);
+                BootBox.alert(this.props.saveUrl + ": " + err.toString());
             }.bind(this)
         });
     },

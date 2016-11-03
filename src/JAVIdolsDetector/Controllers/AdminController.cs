@@ -3,8 +3,9 @@ using JAVIdolsDetector.Models;
 using Microsoft.Extensions.Options;
 using JAVIdolsDetector.Models.Services;
 using JAVIdolsDetector.Models.UIControls;
-using JAVIdolsDetector.Interfaces.Implementations;
 using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace JAVIdolsDetector.Controllers
 {
@@ -35,23 +36,17 @@ namespace JAVIdolsDetector.Controllers
         {
             return this.Json(PersonGroupServices.LoadPersonGroup(this.dbContext, groupId));
         }
-        [HttpPost]
-        public IActionResult DeletePersonGroup(PersonGroupServices form)
-        {
-            form.Delete(dbContext);
-            //FaceApiCaller.DeletePersonGroup(this.appSettings.ApiKey, form.PersonGroup.PersonGroupOnlineId);
-            return this.Json(new { });
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> DeletePersonGroup(PersonGroupServices form)
+        //{
+        //    form.Delete(dbContext, this.appSettings);
+        //    return this.Json(new { });
+        //}
 
         [HttpPost]
-        public IActionResult SavePersonGroup(PersonGroupServices form)
+        public async Task<IActionResult> SavePersonGroup(PersonGroupServices form)
         {
-            form.AddEdit(this.dbContext);
-            if (!form.Mode.Equals("edit", StringComparison.OrdinalIgnoreCase))
-            {
-                //FaceApiCaller.CreatePersonGroup(this.appSettings.ApiKey, form.PersonGroup.PersonGroupOnlineId, form.PersonGroup.Name);
-            }
-            return this.Json(new { });
+            return this.Json(new { messages = await form.AddEdit(this.dbContext, this.appSettings) });
         }
         #endregion PersonGroup
         #region Person

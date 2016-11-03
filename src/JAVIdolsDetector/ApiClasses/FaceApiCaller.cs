@@ -1,14 +1,18 @@
-﻿using JAVIdolsDetector.Models.Services;
+﻿using JAVIdolsDetector.ApiClasses;
+using JAVIdolsDetector.Models.UIControls;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace JAVIdolsDetector.Interfaces.Implementations
 {
     public class FaceApiCaller
     {
         #region PersonGroup
-        public static async void CreatePersonGroup(string apiKey, string groupId, string groupName)
+        public static async Task<IList<RequestResult>> CreatePersonGroup(string apiKey, string groupId, string groupName)
         {
             using (var client = new HttpClient())
             {
@@ -18,16 +22,22 @@ namespace JAVIdolsDetector.Interfaces.Implementations
                 using (var content = new ByteArrayContent(byteData))
                 {
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    HttpResponseMessage response;
-                    response = await client.PutAsync(uri, content);
+                    var response = await client.PutAsync(uri, content);
                     if (response.IsSuccessStatusCode)
                     {
-                        // update database
+                        return new List<RequestResult>();
                     }
-                    else
+                    var errors = new List<RequestResult>();
+                    var responseBody = JsonConvert.DeserializeObject<ApiResponse>(await response.Content.ReadAsStringAsync());
+                    if (responseBody != null)
                     {
-                        // notify error message
+                        errors.Add(new RequestResult()
+                        {
+                            Type = RequestResultType.error,
+                            Text = responseBody.Error.Message
+                        });
                     }
+                    return errors;
                 }
             }
         }
