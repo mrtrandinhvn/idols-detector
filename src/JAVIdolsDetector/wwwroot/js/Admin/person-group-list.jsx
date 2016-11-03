@@ -113,7 +113,7 @@ var PersonGroupGrid = React.createClass({
             type: "POST",
             cache: false,
             success: function (data) {
-                if (data.messages) {
+                if (data.messages && data.messages.length > 0) {
                     this.setState({
                         messages: data.messages
                     });
