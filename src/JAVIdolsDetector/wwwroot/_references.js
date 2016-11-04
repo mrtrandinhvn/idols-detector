@@ -9,5 +9,4 @@
 /// <reference path="build/js/homeindex.bundle.js" />
 /// <reference path="build/js/reacttrainingindex.bundle.js" />
 /// <reference path="build/js/reacttrainingthinking.bundle.js" />
-/// <reference path="lib/bootstrap/dist/js/bootstrap.js" />
-/// <reference path="lib/jquery/dist/jquery.js" />
+/// <reference path="js/gs/gs-commons.js" />

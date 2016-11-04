@@ -52,11 +52,16 @@
       "Areas/**/Views",
       "appsettings.json",
       "web.config"
+    ],
+    "exclude": [
+      "wwwroot/js",
+      "wwwroot/lib",
+      "wwwroot/_references.js"
     ]
   },
   "scripts": {
     "prepublish": [
-      "dotnet bundle"
+      //"dotnet bundle"
     ],
     "postpublish": [
       "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"

@@ -1,9 +1,8 @@
 ﻿var path = require("path");
-
+var webpack = require("webpack");
 module.exports = {
     context: path.join(__dirname, "wwwroot"),
     entry: {
-        gsReactGrid: ["./lib/gs/gs-react-grid.jsx"],
         gridDemo: ["./js/ReactTraining/grid-demo.jsx"],
         homeIndex: ["./js/Home/index.jsx"],
         reactTrainingIndex: ["./js/ReactTraining/index.jsx"],
@@ -28,6 +27,12 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        })
+    ],
     resolve: {
         extensions: ["", ".js", ".jsx"],
         root: [
@@ -35,10 +40,5 @@ module.exports = {
         ]
     },
     externals: {
-        "react": "React",
-        "react-dom": "ReactDOM",
-        "react-bootstrap": "ReactBootstrap",
-        "jquery": "jQuery",
-        "bootbox": "bootbox"
     }
 };

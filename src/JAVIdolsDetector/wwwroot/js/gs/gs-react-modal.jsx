@@ -1,8 +1,7 @@
 ﻿var React = require("react");
-//var ReactBootstrap = require("lib/react-bootstrap/react-bootstrap.min.js");
-var ReactBootstrap = require("react-bootstrap");
-var Modal = ReactBootstrap.Modal
-var Button = ReactBootstrap.Button
+var ReactBootstrap = require("react-bootstrap");;
+var Modal = ReactBootstrap.Modal;
+var Button = ReactBootstrap.Button;
 var GsReactModal = React.createClass({
     getInitialState: function () {
         return null;

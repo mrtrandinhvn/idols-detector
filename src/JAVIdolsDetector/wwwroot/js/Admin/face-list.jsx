@@ -1,11 +1,11 @@
 ﻿var React = require("react");
 var ReactDOM = require("react-dom");
-var GsReactGrid = require("lib/gs/gs-react-grid.jsx");
-var GsSelect = require("lib/gs/gs-react-dropdownlist.jsx");
-var GsReactModal = require("lib/gs/gs-react-modal.jsx");
-var BootBox = require("bootbox");
-var GsCommons = require("lib/gs/gs-commons.js");
+var GsReactGrid = require("js/gs/gs-react-grid.jsx");
+var GsSelect = require("js/gs/gs-react-dropdownlist.jsx");
+var GsReactModal = require("js/gs/gs-react-modal.jsx");
 
+//var GsCommons = require("js/gs/gs-commons.js");
+var Dialog = require("bootstrap3-dialog");
 var App = React.createClass({
     render: function () {
         return (
@@ -145,7 +145,7 @@ var FaceGrid = React.createClass({
                 this.loadData();
             }.bind(this),
             error: function (xhr, status, err) {
-                BootBox.alert(this.props.saveUrl + ": " + err.toString());
+                alert(this.props.saveUrl + ": " + err.toString());
             }.bind(this)
         });
     },
@@ -166,7 +166,7 @@ var FaceGrid = React.createClass({
                 });
             }.bind(this),
             error: function (xhr, status, err) {
-                BootBox.alert(this.props.saveUrl + ": " + err.toString());
+                alert(this.props.saveUrl + ": " + err.toString());
             }.bind(this)
         });
     },
@@ -207,7 +207,7 @@ var FaceGrid = React.createClass({
                 this.loadData();
             }.bind(this),
             error: function (xhr, status, err) {
-                BootBox.alert(this.props.saveUrl + ": " + err.toString());
+                alert(this.props.saveUrl + ": " + err.toString());
             }.bind(this)
         });
     },

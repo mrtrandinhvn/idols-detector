@@ -3,6 +3,4 @@
 **/.vscode
 **/node_modules/
 **/Deployment/
-**/wwwroot/lib/bootstrap/
-**/wwwroot/lib/jquery/
 **/wwwroot/build/

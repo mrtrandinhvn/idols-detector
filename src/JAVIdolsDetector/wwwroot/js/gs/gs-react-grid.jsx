@@ -1,5 +1,5 @@
 ﻿var React = require("react");
-var GsReactSearchBox = require("lib/gs/gs-react-searchbox.jsx");
+var GsReactSearchBox = require("js/gs/gs-react-searchbox.jsx");
 var GsReactGrid = React.createClass({
     onRowSelect: function (rowData) {
         this.props.onRowSelect(rowData);

@@ -1,5 +1,6 @@
 ﻿var React = require("react");
 var ReactDOM = require("react-dom");
+var Dialog = require("bootstrap3-dialog");
 var App = React.createClass({
     render: function () {
         return (

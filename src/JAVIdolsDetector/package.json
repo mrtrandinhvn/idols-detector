@@ -1,17 +1,23 @@
 {
   "name": "idols-detector",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple project using react, asp.net core and microsoft cognitive service",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "mrtrandinhvn@gmail.com",
+  "repository": "https://github.com/mrtrandinhvn/idols-detector",
   "license": "MIT",
   "dependencies": {
+    "bootstrap": "^3.3.7",
+    "bootstrap3-dialog": "^1.35.2",
+    "jquery": "^3.1.1",
     "react": "^15.3.2",
+    "react-bootstrap": "^0.30.6",
     "react-dom": "^15.3.2",
-    "react-modal": "^1.5.2"
+    "react-modal": "^1.5.2",
+    "webpack": "^1.13.3"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
