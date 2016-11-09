@@ -36,12 +36,11 @@ namespace JAVIdolsDetector.Controllers
         {
             return this.Json(PersonGroupServices.LoadPersonGroup(this.dbContext, groupId));
         }
-        //[HttpPost]
-        //public async Task<IActionResult> DeletePersonGroup(PersonGroupServices form)
-        //{
-        //    form.Delete(dbContext, this.appSettings);
-        //    return this.Json(new { });
-        //}
+        [HttpPost]
+        public async Task<IActionResult> DeletePersonGroup(PersonGroupServices form)
+        {
+            return this.Json(new { messages = await form.Delete(dbContext, this.appSettings) });
+        }
 
         [HttpPost]
         public async Task<IActionResult> SavePersonGroup(PersonGroupServices form)

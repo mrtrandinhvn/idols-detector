@@ -139,7 +139,7 @@ var PersonGroupGrid = React.createClass({
         this.setState({ selectedRow: rowData });
     },
     // START form inputs events
-    onGroupIdChanged: function (e) {
+    onPersonGroupOnlineIdChanged: function (e) {
         var modalData = this.state.modalData;
         modalData.personGroupOnlineId = e.target.value;
         this.setState({ modalData: modalData });
@@ -169,7 +169,7 @@ var PersonGroupGrid = React.createClass({
                 this.loadData();
             }.bind(this),
             error: function (xhr, status, err) {
-                alert(this.props.saveUrl + ": " + err.toString());
+                alert(this.props.deleteUrl + ": " + err.toString());
             }.bind(this)
         });
     },
@@ -188,7 +188,7 @@ var PersonGroupGrid = React.createClass({
                               closeModal={this.closeModal}>
                     <div className="form">
                         <div className="form-group">
-                            <label className="">GroupId</label><input className="form-control" type="text" onChange={this.onGroupIdChanged} value={this.state.modalData.personGroupOnlineId || ""} disabled={this.state.modalMode == "edit"} />
+                            <label className="">Group Online Id</label><input className="form-control" type="text" onChange={this.onPersonGroupOnlineIdChanged} value={this.state.modalData.personGroupOnlineId || ""} disabled={this.state.modalMode == "edit"} />
                         </div>
                         <div className="form-group">
                             <label>Group Name</label><input className="form-control" type="text" onChange={this.onGroupNameChanged} value={this.state.modalData.name || ""} />

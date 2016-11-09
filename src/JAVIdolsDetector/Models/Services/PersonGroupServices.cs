@@ -23,44 +23,59 @@ namespace JAVIdolsDetector.Models.Services
             var errors = new List<RequestResult>();
             if (this.Mode.Equals("edit", StringComparison.OrdinalIgnoreCase))
             {
+                // Edit a group
                 var group = dbContext.PersonGroup.Where(g => g.PersonGroupId == this.PersonGroup.PersonGroupId).FirstOrDefault();
                 if (group != null)
                 {
-                    group.PersonGroupOnlineId = PersonGroup.PersonGroupOnlineId;
                     group.Name = PersonGroup.Name;
+                    group.TrainingStatus = PersonGroup.TrainingStatus;
                 }
             }
             else
             {
-                errors = await FaceApiCaller.CreatePersonGroup(appSettings.ApiKey, this.PersonGroup.PersonGroupOnlineId, this.PersonGroup.Name) as List<RequestResult>; // call external api
-                if (errors.Count == 0)
+                // Add new group
+                var response = await FaceApiCaller.CreatePersonGroup(appSettings.ApiKey, this.PersonGroup.PersonGroupOnlineId, this.PersonGroup.Name); // call external api
+                if (response != null && response.Error != null)
+                {
+                    errors.Add(new RequestResult()
+                    {
+                        Type = RequestResultType.error,
+                        Text = response.Error.Message
+                    });
+                }
+                else
                 {
                     // update database
                     this.PersonGroup.TrainingStatus = "PersonGroupNotTrained"; // default status
                     dbContext.PersonGroup.Add(this.PersonGroup);
                     dbContext.SaveChanges();
-                    return errors;
-                }
-                else
-                {
-                    return errors;
                 }
             }
             return errors;
         }
-        //public async Task<IEnumerable<RequestResult>> Delete(IdolsDetectorContext dbContext, ApplicationSettings appSettings)
-        //{
-        //    var errors = this.Validate();
-        //    if (errors.Count > 0)
-        //    {
-        //        return errors;
-        //    }
-
-        //    dbContext.PersonGroup.Remove(this.PersonGroup);
-        //    var response = await FaceApiCaller.DeletePersonGroup(appSettings.ApiKey, this.PersonGroup.PersonGroupOnlineId);
-        //    dbContext.SaveChanges();
-        //    return errors;
-        //}
+        public async Task<IEnumerable<RequestResult>> Delete(IdolsDetectorContext dbContext, ApplicationSettings appSettings)
+        {
+            var errors = this.Validate();
+            if (errors.Count > 0)
+            {
+                return errors;
+            }
+            var response = await FaceApiCaller.DeletePersonGroup(appSettings.ApiKey, this.PersonGroup.PersonGroupOnlineId);
+            if (response != null && response.Error != null)
+            {
+                errors.Add(new RequestResult()
+                {
+                    Type = RequestResultType.error,
+                    Text = response.Error.Message
+                });
+            }
+            else
+            {
+                dbContext.PersonGroup.Remove(this.PersonGroup);
+                dbContext.SaveChanges();
+            }
+            return errors;
+        }
         public static IEnumerable<PersonGroup> LoadPersonGroup(IdolsDetectorContext dbContext, int? groupId = null)
         {
             var result = new List<PersonGroup>();
