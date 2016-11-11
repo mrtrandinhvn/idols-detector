@@ -160,9 +160,9 @@ var PersonGroupGrid = React.createClass({
             type: "POST",
             cache: false,
             success: function (data) {
-                if (data.errors) {
+                if (data.messages && data.messages.length > 0) {
                     this.setState({
-                        messages: errors
+                        messages: data.messages
                     });
                     return;
                 }
@@ -176,10 +176,13 @@ var PersonGroupGrid = React.createClass({
     render: function () {
         return (
             <div>
-                <div className="btn-group">
+                <div className="header-actions">
+                    <div className="btn-group pull-right">
                     <button type="button" className="btn btn-info" onClick={function () { this.openModal("Add"); }.bind(this)}>Add</button>
                     <button className="btn btn-warning" onClick={function () { this.openModal("Edit"); }.bind(this)} disabled={$.isEmptyObject(this.state.selectedRow)}>Edit</button>
                     <button className="btn btn-danger" onClick={this.deleteRecord} disabled={$.isEmptyObject(this.state.selectedRow)}>Delete</button>
+                    </div>
+                    <div style={{clear:"both",height:0}}></div>
                 </div>
                 <GsReactModal title={this.state.modalMode + " A Person Group"}
                               saveCall={this.modalSaveCall}
@@ -188,7 +191,10 @@ var PersonGroupGrid = React.createClass({
                               closeModal={this.closeModal}>
                     <div className="form">
                         <div className="form-group">
-                            <label className="">Group Online Id</label><input className="form-control" type="text" onChange={this.onPersonGroupOnlineIdChanged} value={this.state.modalData.personGroupOnlineId || ""} disabled={this.state.modalMode == "edit"} />
+                            <label className="">Group Online Id</label><input className="form-control" type="text"
+                                                                              onChange={this.onPersonGroupOnlineIdChanged}
+                                                                              value={this.state.modalData.personGroupOnlineId || ""}
+                                                                              disabled={this.state.modalMode.toLowerCase() == "edit"} />
                         </div>
                         <div className="form-group">
                             <label>Group Name</label><input className="form-control" type="text" onChange={this.onGroupNameChanged} value={this.state.modalData.name || ""} />
@@ -209,6 +215,13 @@ var PersonGroupGrid = React.createClass({
                              onRowSelect={this.onRowSelect}
                              selectedRow={this.state.selectedRow}>
                 </GsReactGrid>
+                <div className="info">
+                    {
+                        this.state.messages.map(function (mes, i) {
+                            return (<div key={i} className={mes.type }>- {mes.text}</div>)
+                        })
+                    }
+                </div>
             </div>
     );
     }

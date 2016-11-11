@@ -6,9 +6,11 @@ namespace JAVIdolsDetector.Models
 {
     public partial class IdolsDetectorContext : DbContext
     {
-        public IdolsDetectorContext(DbContextOptions<IdolsDetectorContext> options)
-            : base(options)
-        { }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+            optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=IdolsDetector;Persist Security Info=True;User ID=IdolsDetectorAdmin;Password=1234554321;");
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,6 +39,10 @@ namespace JAVIdolsDetector.Models
                 entity.HasIndex(e => new { e.FaceOnlineId, e.PersonId })
                     .HasName("u_Face_2")
                     .IsUnique();
+
+                entity.Property(e => e.ImageUrl)
+                    .IsRequired()
+                    .HasMaxLength(500);
 
                 entity.HasOne(d => d.Person)
                     .WithMany(p => p.Face)
@@ -95,7 +101,9 @@ namespace JAVIdolsDetector.Models
                     .IsRequired()
                     .HasColumnType("varchar(64)");
 
-                entity.Property(e => e.TrainingStatus).HasColumnType("varchar(50)");
+                entity.Property(e => e.TrainingStatus)
+                    .HasColumnType("varchar(50)")
+                    .HasDefaultValueSql("'PersonGroupNotTrained'");
             });
         }
 

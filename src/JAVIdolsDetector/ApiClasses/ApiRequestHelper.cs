@@ -45,9 +45,10 @@ namespace JAVIdolsDetector.Interfaces.Implementations
             }
             catch (HttpRequestException)
             {
-                return new ApiResponse { Error = new ApiResponseBody("NoConnection", "Can not establish a connection to Microsft's server, please check your internet connection and try again.") };
+                return new ApiResponse { Error = new ApiErrorResponseBody("NoConnection", "Can not establish a connection to Microsft's server, please check your internet connection and try again.") };
             }
             var responseBody = JsonConvert.DeserializeObject<ApiResponse>(await response.Content.ReadAsStringAsync());
+            var wtf = await response.Content.ReadAsStringAsync();
             return responseBody;
         }
     }

@@ -1,8 +1,7 @@
-﻿using JAVIdolsDetector.Interfaces.Implementations;
+﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace JAVIdolsDetector.Models.Services
 {
@@ -10,6 +9,7 @@ namespace JAVIdolsDetector.Models.Services
     {
         public Face Face { get; set; }
         public string Mode { get; set; }
+        public IList<IFormFile> Images { get; set; }
         public void AddEdit(IdolsDetectorContext dbContext)
         {
             if (this.Mode.Equals("edit", StringComparison.OrdinalIgnoreCase))

@@ -135,9 +135,9 @@ var PersonGrid = React.createClass({
             type: "POST",
             cache: false,
             success: function (data) {
-                if (data.errors) {
+                if (data.messages && data.messages.length > 0) {
                     this.setState({
-                        messages: errors
+                        messages: data.messages
                     });
                     return;
                 }
@@ -155,9 +155,9 @@ var PersonGrid = React.createClass({
             type: "POST",
             cache: false,
             success: function (data) {
-                if (data.errors) {
+                if (data.messages && data.messages.length > 0) {
                     this.setState({
-                        messages: errors
+                        messages: data.messages
                     });
                     return;
                 }
@@ -222,9 +222,9 @@ var PersonGrid = React.createClass({
             type: "POST",
             cache: false,
             success: function (data) {
-                if (data.errors) {
+                if (data.messages && data.messages.length > 0) {
                     this.setState({
-                        messages: errors
+                        messages: data.messages
                     });
                     return;
                 }
@@ -238,10 +238,13 @@ var PersonGrid = React.createClass({
     render: function () {
         return (
             <div>
-                <div className="btn-group">
+                <div className="header-actions">
+                    <div className="btn-group pull-right">
                     <button type="button" className="btn btn-info" onClick={function () { this.openModal("Add"); }.bind(this)}>Add</button>
                     <button className="btn btn-warning" onClick={function () { this.openModal("Edit"); }.bind(this)} disabled={$.isEmptyObject(this.state.selectedRow)}>Edit</button>
                     <button className="btn btn-danger" onClick={this.deleteRecord} disabled={$.isEmptyObject(this.state.selectedRow)}>Delete</button>
+                    </div>
+                    <div style={{clear:"both",height:0}}></div>
                 </div>
                 <GsReactModal title={this.state.modalMode + " A Person"}
                               saveCall={this.modalSaveCall}

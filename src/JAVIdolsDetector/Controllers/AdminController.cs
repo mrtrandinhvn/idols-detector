@@ -50,13 +50,9 @@ namespace JAVIdolsDetector.Controllers
         #endregion PersonGroup
         #region Person
         [HttpPost]
-        public IActionResult SavePerson(PersonServices form)
+        public async Task<IActionResult> SavePerson(PersonServices form)
         {
-            form.AddEdit(this.dbContext);
-            if (!form.Mode.Equals("edit", StringComparison.OrdinalIgnoreCase))
-            {
-                //FaceApiCaller.CreatePersonGroup(this.appSettings.ApiKey, form.PersonGroup.PersonGroupOnlineId, form.PersonGroup.Name);
-            }
+            await form.AddEdit(this.dbContext, this.appSettings);
             return this.Json(new { });
         }
         public IActionResult PersonList()
@@ -67,9 +63,9 @@ namespace JAVIdolsDetector.Controllers
         {
             return this.Json(PersonServices.LoadPeople(this.dbContext));
         }
-        public IActionResult DeletePerson(PersonServices form)
+        public async Task<IActionResult> DeletePerson(PersonServices form)
         {
-            form.Delete(dbContext);
+            await form.Delete(dbContext, this.appSettings);
             return this.Json(new { });
         }
         #endregion Person

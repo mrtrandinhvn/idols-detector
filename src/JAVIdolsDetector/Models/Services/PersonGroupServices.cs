@@ -9,18 +9,13 @@ using System.Threading.Tasks;
 
 namespace JAVIdolsDetector.Models.Services
 {
-    public class PersonGroupServices
+    public class PersonGroupServices : BaseService
     {
         public PersonGroup PersonGroup { get; set; }
         public string Mode { get; set; }
-        private IList<RequestResult> Validate()
-        {
-            var result = new List<RequestResult>();
-            return result;
-        }
         public async Task<IEnumerable<RequestResult>> AddEdit(IdolsDetectorContext dbContext, ApplicationSettings appSettings)
         {
-            var errors = new List<RequestResult>();
+            var errors = this.Validate();
             if (this.Mode.Equals("edit", StringComparison.OrdinalIgnoreCase))
             {
                 // Edit a group
@@ -34,7 +29,7 @@ namespace JAVIdolsDetector.Models.Services
             else
             {
                 // Add new group
-                var response = await FaceApiCaller.CreatePersonGroup(appSettings.ApiKey, this.PersonGroup.PersonGroupOnlineId, this.PersonGroup.Name); // call external api
+                var response = await FaceApiCaller.CreatePersonGroup(appSettings.ApiKey, this.PersonGroup); // call external api
                 if (response != null && response.Error != null)
                 {
                     errors.Add(new RequestResult()
@@ -48,8 +43,11 @@ namespace JAVIdolsDetector.Models.Services
                     // update database
                     this.PersonGroup.TrainingStatus = "PersonGroupNotTrained"; // default status
                     dbContext.PersonGroup.Add(this.PersonGroup);
-                    dbContext.SaveChanges();
                 }
+            }
+            if (errors.Count == 0)
+            {
+                dbContext.SaveChanges();
             }
             return errors;
         }
@@ -60,7 +58,7 @@ namespace JAVIdolsDetector.Models.Services
             {
                 return errors;
             }
-            var response = await FaceApiCaller.DeletePersonGroup(appSettings.ApiKey, this.PersonGroup.PersonGroupOnlineId);
+            var response = await FaceApiCaller.DeletePersonGroup(appSettings.ApiKey, this.PersonGroup);
             if (response != null && response.Error != null)
             {
                 errors.Add(new RequestResult()

@@ -3,8 +3,9 @@ var ReactDOM = require("react-dom");
 var GsReactGrid = require("js/gs/gs-react-grid.jsx");
 var GsSelect = require("js/gs/gs-react-dropdownlist.jsx");
 var GsReactModal = require("js/gs/gs-react-modal.jsx");
+var Dropzone = require("react-dropzone");
+// ====================================== END including libs ========================================
 
-//var GsCommons = require("js/gs/gs-commons.js");
 var Dialog = require("bootstrap3-dialog");
 var App = React.createClass({
     render: function () {
@@ -42,7 +43,9 @@ var FaceGrid = React.createClass({
             selectedRow: {},
             modalData: {},
             messages: [],
-            personDDL: []
+            personDDL: [],
+            modalFiles: [],
+            showDropzone: true
         }
     },
     loadData: function (args) {
@@ -68,15 +71,17 @@ var FaceGrid = React.createClass({
         });
     },
     closeModal: function () {
-        this.setState({ showModal: false });
+        this.setState({
+            showModal: false, messages: [],
+            modalFiles: []
+        });
     },
     openModal: function (mode) {
         var data = mode.toLocaleLowerCase() == "edit" ? this.state.selectedRow : {};
         this.setState({
             showModal: true,
             modalMode: mode,
-            modalData: data,
-            messages: []
+            modalData: data
         });
     },
     componentDidMount: function () {
@@ -100,10 +105,10 @@ var FaceGrid = React.createClass({
                 text: "Please select a person, a face must be belong to a person."
             });
         }
-        if (!this.state.modalData.imageUrl) {
+        if (!this.state.modalData.imageUrl && this.state.modalFiles.length == 0) {
             messages.push({
                 type: "error",
-                text: "Please enter an URL, that field is required."
+                text: "Please enter an URL or select a file."
             });
         } else if (this.state.modalData.imageUrl.length > 500) {
             messages.push({
@@ -124,20 +129,28 @@ var FaceGrid = React.createClass({
         if (!this.validateModal()) {
             return; // do nothing if there're errors
         }
+        var formData = new FormData();
+        formData.append("mode", this.state.modalMode.toLocaleLowerCase());
+        formData.append("face", this.state.modalData.toString());
+        formData.append("images", this.state.modalFiles);
         // call Save API
         $.ajax({
             url: this.props.saveUrl,
-            data: {
-                mode: this.state.modalMode.toLocaleLowerCase(),
-                face: this.state.modalData
-            },
+            //data: {
+            //    mode: this.state.modalMode.toLocaleLowerCase(),
+            //    face: this.state.modalData,
+            //    images: this.state.modalFiles
+            //},
+            data: formData,
             dataType: "json",
             type: "POST",
             cache: false,
+            processData: false,
+            contentType: false,
             success: function (data) {
-                if (data.errors) {
+                if (data.messages && data.messages.length > 0) {
                     this.setState({
-                        messages: errors
+                        messages: data.messages
                     });
                     return;
                 }
@@ -155,9 +168,9 @@ var FaceGrid = React.createClass({
             type: "POST",
             cache: false,
             success: function (data) {
-                if (data.errors) {
+                if (data.messages && data.messages.length > 0) {
                     this.setState({
-                        messages: errors
+                        messages: data.messages
                     });
                     return;
                 }
@@ -185,7 +198,19 @@ var FaceGrid = React.createClass({
     onImageUrlChange: function (e) {
         var modalData = this.state.modalData;
         modalData.imageUrl = e.target.value;
-        this.setState({ modalData: modalData });
+        this.setState({
+            modalData: modalData,
+            showDropzone: e.target.value ? false : true,
+            modalFiles: [] // clear selected files
+        });
+    },
+    onImageChange: function (files) {
+        var modalData = this.state.modalData;
+        modalData.imageUrl = ""; // clear Image url because the new image will be uploaded
+        this.setState({
+            modalFiles: files,
+            modalData: modalData
+        });
     },
     // END form inputs events
     deleteRecord: function () {
@@ -198,9 +223,9 @@ var FaceGrid = React.createClass({
             type: "POST",
             cache: false,
             success: function (data) {
-                if (data.errors) {
+                if (data.messages && data.messages.length > 0) {
                     this.setState({
-                        messages: errors
+                        messages: data.messages
                     });
                     return;
                 }
@@ -211,7 +236,9 @@ var FaceGrid = React.createClass({
             }.bind(this)
         });
     },
+
     render: function () {
+        var files = this.state.modalFiles; // use for Dropzone
         return (
             <div>
                 <div className="header-actions">
@@ -230,16 +257,46 @@ var FaceGrid = React.createClass({
                     <div className="form">
                         <div className="form-group">
                             <label className="">Person</label><GsSelect onChange={this.onPersonIdChange}
-                                                                        disabled={this.state.modalMode.toLocaleLowerCase() == "edit"}
+                                                                        disabled={this.state.modalMode.toLocaleLowerCase() =="edit" }
                                                                         options={this.state.personDDL}
-                                                                        value={this.state.modalData.personId || ""}></GsSelect>
+                                                                        value={this.state.modalData.personId || "" }></GsSelect>
                         </div>
                         <div className="form-group">
-                            <label className="">Enter Image URL</label><input type="text" className="form-control" onChange={this.onImageUrlChange} value={this.state.modalData.imageUrl || ""} />
+                            <label className="">Enter Image URL</label><input type="text"
+                                                                              className="form-control"
+                                                                              onChange={this.onImageUrlChange}
+                                                                              value={this.state.modalData.imageUrl || "" }
+                                                                              disabled={this.state.modalFiles.length > 0 } />
                         </div>
                         {/*<div className="form-group">
                             <label className="">Or upload an image</label><input type="file" accept="image/*" className="form-control" />
                         </div>*/}
+                        <div>
+                            {
+                            files.length > 0 ?
+                            (
+                                    <div>
+                                        <div>{files.map((file) => (<img key={file.name} style={{ maxWidth: "150px" }} src={file.preview } />))}</div>
+                                    </div>
+                            )
+                            : null
+                            }
+                            <Dropzone onDrop={this.onImageChange} multiple={false} style={
+                                    !this.state.showDropzone ? { display: "none" } : {
+                                        borderWidth: "2px",
+                                        borderColor: "black",
+                                        borderStyle: "dashed",
+                                        borderRadius: "4px",
+                                        padding: "30px",
+                                        transition: "all 0.5s",
+                                    }} activeStyle={{
+                                        borderColor: "green"
+                                    }}>
+                            <div style={{
+                                    textAlign: "center"
+                                }}>Try dropping some files here, or click to select files to upload.</div>
+                            </Dropzone>
+                        </div>
                     </div>
                     <div className="info">
                         {
@@ -256,6 +313,13 @@ var FaceGrid = React.createClass({
                              onRowSelect={this.onRowSelect}
                              selectedRow={this.state.selectedRow}>
                 </GsReactGrid>
+                <div className="info">
+                    {
+                    this.state.messages.map(function (mes, i) {
+                        return (<div key={i} className={mes.type }>- {mes.text}</div>)
+                    })
+                    }
+                </div>
             </div>
     );
     }

@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace JAVIdolsDetector.ApiClasses
 {
-    public class ApiResponseBody
+    public class ApiErrorResponseBody
     {
         public string Code { get; set; }
         public string Message { get; set; }
-        public ApiResponseBody(string code, string message)
+        public ApiErrorResponseBody(string code, string message)
         {
             this.Code = code;
             this.Message = message;
@@ -17,6 +17,10 @@ namespace JAVIdolsDetector.ApiClasses
     }
     public class ApiResponse
     {
-        public ApiResponseBody Error { get; set; }
+        public ApiErrorResponseBody Error { get; set; }
+        /// <summary>
+        /// For successful CreatePerson request
+        /// </summary>
+        public Guid PersonId { get; set; }
     }
 }

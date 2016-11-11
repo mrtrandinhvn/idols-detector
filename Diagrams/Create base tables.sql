@@ -55,3 +55,5 @@ ALTER TABLE PersonGroup ADD Name nvarchar(250) NOT NULL
 GO
 ALTER TABLE PersonGroup ADD CONSTRAINT DF_PersonGroup_TrainingStatus DEFAULT ('PersonGroupNotTrained') FOR TrainingStatus
 GO
+ALTER TABLE Face ALTER COLUMN ImageUrl nvarchar(500) NOT NULL
+GO
