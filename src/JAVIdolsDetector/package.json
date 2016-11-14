@@ -10,14 +10,20 @@
   "repository": "https://github.com/mrtrandinhvn/idols-detector",
   "license": "MIT",
   "dependencies": {
+    "autoprefixer": "^6.5.3",
     "bootstrap": "^3.3.7",
     "bootstrap3-dialog": "^1.35.2",
+    "css-loader": "^0.25.0",
     "jquery": "^3.1.1",
+    "postcss-loader": "^1.1.1",
     "react": "^15.3.2",
     "react-bootstrap": "^0.30.6",
     "react-dom": "^15.3.2",
     "react-dropzone": "^3.7.3",
+    "react-images": "^0.5.1",
     "react-modal": "^1.5.2",
+    "react-slick": "^0.14.5",
+    "style-loader": "^0.13.1",
     "webpack": "^1.13.3"
   },
   "devDependencies": {

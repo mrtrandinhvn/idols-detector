@@ -1,5 +1,6 @@
 ﻿var path = require("path");
 var webpack = require("webpack");
+var autoprefixer = require("autoprefixer");
 module.exports = {
     context: path.join(__dirname, "wwwroot"),
     entry: {
@@ -24,9 +25,14 @@ module.exports = {
                 query: {
                     presets: ["es2015", "react"]
                 }
+            },
+            {
+                test: /\.css$/,
+                loader: "style-loader!css-loader!postcss-loader"
             }
         ]
     },
+    postcss: [autoprefixer({ browsers: ["last 2 versions"] })],
     plugins: [
         new webpack.ProvidePlugin({
             $: "jquery",

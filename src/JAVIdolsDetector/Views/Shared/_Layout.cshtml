@@ -3,21 +3,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @*==================== START SEO tags ===========================*@
+    <meta name="keywords" content="idol,idols,idol detector, idols detector, jav, jav idol, jav idols " />
     <title>@ViewData["Title"] - JAVIdolsDetector</title>
-
-    <link rel="stylesheet" href="@Url.Content("~/css/global.css")" />
-    <link rel="stylesheet" href=@Url.Content("~/css/gs/gs-react-grid.css") />
-    <link rel="stylesheet" href=@Url.Content("~/css/gs/gs-react-modal.css") />
+    @*<link rel="alternate" hreflang="vi" href=""  />*@
+    @*==================== END SEO tags ===========================*@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/css/bootstrap/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/bootstrap3-dialog/bootstrap-dialog.min.css" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/css/bootstrap/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css" />
     </environment>
 </head>
 <body>

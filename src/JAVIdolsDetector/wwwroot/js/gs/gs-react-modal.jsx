@@ -1,4 +1,5 @@
-﻿var React = require("react");
+﻿require("!style-loader!css-loader!postcss-loader!css/gs/gs-react-modal.css");
+var React = require("react");
 var ReactBootstrap = require("react-bootstrap");;
 var Modal = ReactBootstrap.Modal;
 var Button = ReactBootstrap.Button;

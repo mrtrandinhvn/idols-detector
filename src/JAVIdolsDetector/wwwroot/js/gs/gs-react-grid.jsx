@@ -1,4 +1,7 @@
-﻿var React = require("react");
+﻿require("!style-loader!css-loader!postcss-loader!css/bootstrap3-dialog/bootstrap-dialog.min.css");
+require("!style-loader!css-loader!postcss-loader!css/global.css");
+require("!style-loader!css-loader!postcss-loader!css/gs/gs-react-grid.css");
+var React = require("react");
 var GsReactSearchBox = require("js/gs/gs-react-searchbox.jsx");
 var GsReactGrid = React.createClass({
     onRowSelect: function (rowData) {

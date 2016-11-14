@@ -23,7 +23,7 @@ namespace JAVIdolsDetector.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View(PersonGroupServices.LoadPersonGroup(this.dbContext));
+            return this.PersonGroupList();
         }
         #region PersonGroup
         [HttpGet]
