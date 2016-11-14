@@ -131,18 +131,14 @@ var FaceGrid = React.createClass({
         }
         var formData = new FormData();
         formData.append("mode", this.state.modalMode.toLocaleLowerCase());
-        formData.append("face", this.state.modalData.toString());
-        formData.append("images", this.state.modalFiles);
+        formData.append("faceJson", JSON.stringify(this.state.modalData));
+        if (this.state.modalFiles.length == 1) {
+            formData.append("image", this.state.modalFiles[0]);
+        }
         // call Save API
         $.ajax({
             url: this.props.saveUrl,
-            //data: {
-            //    mode: this.state.modalMode.toLocaleLowerCase(),
-            //    face: this.state.modalData,
-            //    images: this.state.modalFiles
-            //},
             data: formData,
-            dataType: "json",
             type: "POST",
             cache: false,
             processData: false,

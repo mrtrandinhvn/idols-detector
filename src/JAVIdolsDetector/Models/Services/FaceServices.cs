@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,23 @@ namespace JAVIdolsDetector.Models.Services
 {
     public class FaceServices
     {
+        private string faceJson;
+
         public Face Face { get; set; }
+        public string FaceJson
+        {
+            get { return this.faceJson; }
+            set
+            {
+                this.faceJson = value;
+                if (!string.IsNullOrEmpty(value))
+                {
+                    this.Face = JsonConvert.DeserializeObject<Face>(value);
+                }
+            }
+        }
         public string Mode { get; set; }
-        public IList<IFormFile> Images { get; set; }
+        public IFormFile Image { get; set; }
         public void AddEdit(IdolsDetectorContext dbContext)
         {
             if (this.Mode.Equals("edit", StringComparison.OrdinalIgnoreCase))
