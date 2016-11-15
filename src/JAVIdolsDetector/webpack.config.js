@@ -27,9 +27,15 @@ module.exports = {
                 }
             },
             {
-                test: /\.css$/,
-                loader: "style-loader!css-loader!postcss-loader"
-            }
+                test: /\.css/,
+                loaders: [
+                    { loader: "style" },
+                    { loader: "css" },
+                    { loader: "postcss" }
+                ]
+            },
+            { test: /\.png($|\?)|\.ico($|\?)/, loader: "url-loader?limit=100000" },
+            { test: /\.jpg$/, loader: "file-loader" }
         ]
     },
     postcss: [autoprefixer({ browsers: ["last 2 versions"] })],

@@ -22,7 +22,6 @@ var App = React.createClass({
 });
 
 //Columns definition
-
 var FaceGrid = React.createClass({
     columns: [
         { key: "faceId", name: "Local Id", width: 80, sortable: true },
@@ -49,7 +48,7 @@ var FaceGrid = React.createClass({
         }
     },
     loadData: function (args) {
-        $.ajax({
+        let promise = $.ajax({
             url: this.props.getUrl,
             data: {
                 gridOptions: this.gridOptions
@@ -57,17 +56,17 @@ var FaceGrid = React.createClass({
             dataType: "json",
             type: "POST",
             cache: false,
-            success: function (data) {
-                if (data) {
-                    this.setState({
-                        selectedRow: {},
-                        rows: data
-                    });
-                }
-            }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(this.props.getUrl, status, err.toString());
-            }.bind(this)
+        });
+        promise.done(data => {
+            if (data) {
+                this.setState({
+                    selectedRow: {},
+                    rows: data
+                });
+            }
+        });
+        promise.fail((xhr, status, err) => {
+            alert(this.props.saveUrl + ": " + err.toString());
         });
     },
     closeModal: function () {
@@ -210,7 +209,7 @@ var FaceGrid = React.createClass({
     },
     // END form inputs events
     deleteRecord: function () {
-        $.ajax({
+        var promise = $.ajax({
             url: this.props.deleteUrl,
             data: {
                 face: this.state.selectedRow
@@ -218,19 +217,27 @@ var FaceGrid = React.createClass({
             dataType: "json",
             type: "POST",
             cache: false,
-            success: function (data) {
-                if (data.messages && data.messages.length > 0) {
-                    this.setState({
-                        messages: data.messages
-                    });
-                    return;
-                }
-                this.loadData();
-            }.bind(this),
-            error: function (xhr, status, err) {
-                alert(this.props.saveUrl + ": " + err.toString());
-            }.bind(this)
+            //success: function (data) {
+
+            //}.bind(this),
+            //error: function (xhr, status, err) {
+            //    alert(this.props.saveUrl + ": " + err.toString());
+            //}.bind(this)
         });
+        promise.done(data => {
+            debugger;
+            if (data.messages && data.messages.length > 0) {
+                this.setState({
+                    messages: data.messages
+                });
+                return;
+            }
+            this.loadData();
+        });
+        promise.fail((xhr, status, err) => {
+            alert(this.props.saveUrl + ": " + err.toString());
+        });
+        //promise.always(alwaysFunction);
     },
 
     render: function () {
@@ -272,7 +279,7 @@ var FaceGrid = React.createClass({
                             files.length > 0 ?
                             (
                                     <div>
-                                        <div>{files.map((file) => (<img key={file.name} style={{ maxWidth: "150px" }} src={file.preview } />))}</div>
+                                        <div>{files.map(file => (<img key={file.name} style={{ maxWidth: "150px" }} src={file.preview } />))}</div>
                                     </div>
                             )
                             : null
@@ -296,7 +303,7 @@ var FaceGrid = React.createClass({
                     </div>
                     <div className="info">
                         {
-                            this.state.messages.map(function (mes, i) {
+                            this.state.messages.map((mes, i) => {
                                 return (<div key={i} className={mes.type }>- {mes.text}</div>)
                             })
                         }
@@ -311,7 +318,7 @@ var FaceGrid = React.createClass({
                 </GsReactGrid>
                 <div className="info">
                     {
-                    this.state.messages.map(function (mes, i) {
+                    this.state.messages.map((mes, i) => {
                         return (<div key={i} className={mes.type }>- {mes.text}</div>)
                     })
                     }
