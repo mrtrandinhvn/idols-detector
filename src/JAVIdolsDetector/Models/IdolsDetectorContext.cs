@@ -6,12 +6,15 @@ namespace JAVIdolsDetector.Models
 {
     public partial class IdolsDetectorContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=IdolsDetector;Persist Security Info=True;User ID=IdolsDetectorAdmin;Password=1234554321;");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+        //    optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=IdolsDetector;Persist Security Info=True;User ID=IdolsDetectorAdmin;Password=1234554321;");
+        //}
 
+        public IdolsDetectorContext(DbContextOptions options) : base(options)
+        {
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Country>(entity =>

@@ -19,7 +19,7 @@ namespace JAVIdolsDetector.Interfaces.Implementations
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", apiKey);
-                var uri = $@"https://api.projectoxford.ai/face/v1.0/persongroups/{group.PersonGroupOnlineId}";
+                var uri = $@"https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/{group.PersonGroupOnlineId}";
                 var byteData = Encoding.UTF8.GetBytes(string.Format("{{'name': '{0}'}}", group.Name));
                 using (var content = new ByteArrayContent(byteData))
                 {
@@ -33,7 +33,7 @@ namespace JAVIdolsDetector.Interfaces.Implementations
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", apiKey);
-                var uri = $@"https://api.projectoxford.ai/face/v1.0/persongroups/{group.PersonGroupOnlineId}";
+                var uri = $@"https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/{group.PersonGroupOnlineId}";
                 return await new RequestHelper().Send(client, RequestType.DELETE, uri, null);
             }
         }
@@ -44,7 +44,7 @@ namespace JAVIdolsDetector.Interfaces.Implementations
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", apiKey);
-                var uri = $@"https://api.projectoxford.ai/face/v1.0/persongroups/{person.PersonGroup.PersonGroupOnlineId}/persons";
+                var uri = $@"https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/{person.PersonGroup.PersonGroupOnlineId}/persons";
                 var byteData = Encoding.UTF8.GetBytes(string.Format("{{'name': '{0}'}}", person.Name));
                 using (var content = new ByteArrayContent(byteData))
                 {
@@ -58,7 +58,7 @@ namespace JAVIdolsDetector.Interfaces.Implementations
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", apiKey);
-                var uri = $@"https://api.projectoxford.ai/face/v1.0/persongroups/{person.PersonGroup.PersonGroupOnlineId}/persons/{person.PersonOnlineId}";
+                var uri = $@"https://westus.api.cognitive.microsoft.com/face/v1.0/persongroups/{person.PersonGroup.PersonGroupOnlineId}/persons/{person.PersonOnlineId}";
                 return await new RequestHelper().Send(client, RequestType.DELETE, uri, null);
             }
         }
