@@ -4,3 +4,4 @@
 **/node_modules/
 **/Deployment/
 **/wwwroot/build/
+/src/JAVIdolsDetector/appsettings.json
